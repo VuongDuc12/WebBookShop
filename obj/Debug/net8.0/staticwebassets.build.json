@@ -1,6 +1,6 @@
 {
   "Version": 1,
-  "Hash": "RzPqO5O309NlcT5QNPpuck/jrPDb/T1VoGn/xHRnW/M=",
+  "Hash": "v8lU+DykaVP/7nucahIxpGnm+zGuhdIPaKP+s1VucU0=",
   "Source": "NewAppBookShop",
   "BasePath": "_content/NewAppBookShop",
   "Mode": "Default",
@@ -1195,6 +1195,25 @@
       "OriginalItemSpec": "D:\\CodeProject\\c#\\NewAppBookShop\\NewAppBookShop\\obj\\Debug\\net8.0\\scopedcss\\projectbundle\\NewAppBookShop.bundle.scp.css"
     },
     {
+      "Identity": "D:\\CodeProject\\c#\\NewAppBookShop\\NewAppBookShop\\wwwroot\\css\\account.css",
+      "SourceId": "NewAppBookShop",
+      "SourceType": "Discovered",
+      "ContentRoot": "D:\\CodeProject\\c#\\NewAppBookShop\\NewAppBookShop\\wwwroot\\",
+      "BasePath": "_content/NewAppBookShop",
+      "RelativePath": "css/account.css",
+      "AssetKind": "All",
+      "AssetMode": "All",
+      "AssetRole": "Primary",
+      "AssetMergeBehavior": "PreferTarget",
+      "AssetMergeSource": "",
+      "RelatedAsset": "",
+      "AssetTraitName": "",
+      "AssetTraitValue": "",
+      "CopyToOutputDirectory": "Never",
+      "CopyToPublishDirectory": "PreserveNewest",
+      "OriginalItemSpec": "wwwroot\\css\\account.css"
+    },
+    {
       "Identity": "D:\\CodeProject\\c#\\NewAppBookShop\\NewAppBookShop\\wwwroot\\css\\bootstrap.min.css",
       "SourceId": "NewAppBookShop",
       "SourceType": "Discovered",
@@ -1668,6 +1687,25 @@
       "CopyToOutputDirectory": "Never",
       "CopyToPublishDirectory": "PreserveNewest",
       "OriginalItemSpec": "wwwroot\\favicon.ico"
+    },
+    {
+      "Identity": "D:\\CodeProject\\c#\\NewAppBookShop\\NewAppBookShop\\wwwroot\\images\\account-bg.jpg",
+      "SourceId": "NewAppBookShop",
+      "SourceType": "Discovered",
+      "ContentRoot": "D:\\CodeProject\\c#\\NewAppBookShop\\NewAppBookShop\\wwwroot\\",
+      "BasePath": "_content/NewAppBookShop",
+      "RelativePath": "images/account-bg.jpg",
+      "AssetKind": "All",
+      "AssetMode": "All",
+      "AssetRole": "Primary",
+      "AssetMergeBehavior": "PreferTarget",
+      "AssetMergeSource": "",
+      "RelatedAsset": "",
+      "AssetTraitName": "",
+      "AssetTraitValue": "",
+      "CopyToOutputDirectory": "Never",
+      "CopyToPublishDirectory": "PreserveNewest",
+      "OriginalItemSpec": "wwwroot\\images\\account-bg.jpg"
     },
     {
       "Identity": "D:\\CodeProject\\c#\\NewAppBookShop\\NewAppBookShop\\wwwroot\\img\\1729704312467.webp",

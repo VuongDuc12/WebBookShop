@@ -5,6 +5,10 @@
       "PackagePath": "staticwebassets\\NewAppBookShop.bundle.scp.css"
     },
     {
+      "Id": "D:\\CodeProject\\c#\\NewAppBookShop\\NewAppBookShop\\wwwroot\\css\\account.css",
+      "PackagePath": "staticwebassets\\css\\account.css"
+    },
+    {
       "Id": "D:\\CodeProject\\c#\\NewAppBookShop\\NewAppBookShop\\wwwroot\\css\\bootstrap.min.css",
       "PackagePath": "staticwebassets\\css\\bootstrap.min.css"
     },
@@ -103,6 +107,10 @@
     {
       "Id": "D:\\CodeProject\\c#\\NewAppBookShop\\NewAppBookShop\\wwwroot\\favicon.ico",
       "PackagePath": "staticwebassets\\favicon.ico"
+    },
+    {
+      "Id": "D:\\CodeProject\\c#\\NewAppBookShop\\NewAppBookShop\\wwwroot\\images\\account-bg.jpg",
+      "PackagePath": "staticwebassets\\images\\account-bg.jpg"
     },
     {
       "Id": "D:\\CodeProject\\c#\\NewAppBookShop\\NewAppBookShop\\wwwroot\\img\\1729704312467.webp",
