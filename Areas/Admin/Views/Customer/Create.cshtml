@@ -1,0 +1,35 @@
+@model NewAppBookShop.Models.KhachHang
+
+@{
+    ViewData["Title"] = "Add New Customer";
+}
+
+<h2>Add New Customer</h2>
+
+<form method="post">
+    <div class="form-group">
+        <label for="TenKh">Full Name</label>
+        <input type="text" class="form-control" id="TenKh" name="TenKh" required />
+    </div>
+    <div class="form-group">
+        <label for="SoDienThoai">Phone Number</label>
+        <input type="text" class="form-control" id="SoDienThoai" name="SoDienThoai" required />
+    </div>
+    <div class="form-group">
+        <label for="GioiTinh">Gender</label>
+        <input type="text" class="form-control" id="GioiTinh" name="GioiTinh" />
+    </div>
+    <div class="form-group">
+        <label for="NgaySinh">Date of Birth</label>
+        <input type="date" class="form-control" id="NgaySinh" name="NgaySinh" />
+    </div>
+    <div class="form-group">
+        <label for="DiaChi">Address</label>
+        <input type="text" class="form-control" id="DiaChi" name="DiaChi" />
+    </div>
+    <div class="form-group">
+        <label for="TongChiTieu">Total Expenditure</label>
+        <input type="number" class="form-control" id="TongChiTieu" name="TongChiTieu" />
+    </div>
+    <button type="submit" class="btn btn-primary mt-3">Add Customer</button>
+</form>
