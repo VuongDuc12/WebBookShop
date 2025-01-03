@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore.Metadata.Internal;
 using NewAppBookShop.Areas.Identity.Data;
 using NewAppBookShop.Models;
 using NewAppBookShop.ViewModels;
@@ -11,11 +12,13 @@ namespace NewAppBookShop.Controllers
     {
         private readonly SignInManager<APpUser> signInManager;
         private readonly UserManager<APpUser> userManager;
+        private readonly BookShopContext _context;
 
-        public AccountController(SignInManager<APpUser> signInManager, UserManager<APpUser> userManager)
+        public AccountController(SignInManager<APpUser> signInManager, UserManager<APpUser> userManager, BookShopContext context)
         {
             this.signInManager = signInManager;
             this.userManager = userManager;
+             _context = context;
         }
 
         public IActionResult Login()
@@ -83,8 +86,22 @@ public async Task<IActionResult> Login(LoginViewModel model)
         {
             // Assign "KhachHang" role
             await userManager.AddToRoleAsync(user, "KhachHang");
+             var khachHang = new KhachHang
+                {
+                    UserId = user.Id,
+                    SoDienThoai = model.SoDienThoai,
+                    TenKh = model.TenKh,
+                    TongChiTieu = 0 // Bạn có thể mặc định hoặc lấy giá trị từ đâu đó
+                };
 
-            return RedirectToAction("Login", "Account");
+                // Thêm khách hàng vào DB
+                _context.KhachHangs.Add(khachHang);
+                await _context.SaveChangesAsync();
+
+                // Chuyển hướng đến trang khác sau khi đăng ký thành công
+               return RedirectToAction("Login", "Account");
+
+           
         }
         else
         {

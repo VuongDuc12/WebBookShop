@@ -4,13 +4,13 @@ using Microsoft.EntityFrameworkCore;
 
 namespace NewAppBookShop.Models;
 
-public partial class NewAppBookShopContext : DbContext
+public partial class BookShopContext : DbContext
 {
-    public NewAppBookShopContext()
+    public BookShopContext()
     {
     }
 
-    public NewAppBookShopContext(DbContextOptions<NewAppBookShopContext> options)
+    public BookShopContext(DbContextOptions<BookShopContext> options)
         : base(options)
     {
     }

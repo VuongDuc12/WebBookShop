@@ -11,11 +11,20 @@
         <h2 class="text-center mb-4">Register</h2>
         <form asp-action="Register" method="post">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-          
+            <div class="mb-3">
+                <label asp-for="TenKh" class="form-label">Full Name</label> <!-- Thêm label cho tên khách hàng -->
+                <input asp-for="TenKh" class="form-control" />
+                <span asp-validation-for="TenKh" class="text-danger"></span>
+            </div>
             <div class="mb-3">
                 <label asp-for="Email" class="form-label"></label>
                 <input asp-for="Email" class="form-control" />
                 <span asp-validation-for="Email" class="text-danger"></span>
+            </div>
+             <div class="mb-3">
+                <label asp-for="SoDienThoai" class="form-label">Phone Number</label> <!-- Thêm label cho số điện thoại -->
+                <input asp-for="SoDienThoai" class="form-control" />
+                <span asp-validation-for="SoDienThoai" class="text-danger"></span>
             </div>
             <div class="mb-3">
                 <label asp-for="Password" class="form-label"></label>
