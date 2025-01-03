@@ -10,6 +10,7 @@ using NewAppBookShop.Data;
 using NewAppBookShop.Areas.Identity.Data;
 using NewAppBookShop.Areas.Identity.Helpers;
 using Microsoft.AspNetCore.Identity.UI.Services;
+using NewAppBookShop.Models;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -19,6 +20,8 @@ var connectionString = builder.Configuration.GetConnectionString("NewAppBookShop
 
 // Cấu hình DbContext
 builder.Services.AddDbContext<NewAppBookShopContext>(options =>
+    options.UseSqlServer(connectionString));
+builder.Services.AddDbContext<BookShopContext>(options =>
     options.UseSqlServer(connectionString));
 
 // Cấu hình Identity
