@@ -1,20 +1,20 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Users\\hoang\\OneDrive\\Máy tính\\WebBookShop\\NewAppBookShop.csproj": {}
+    "D:\\CodeProject\\c#\\NewAppBookShop\\NewAppBookShop\\NewAppBookShop.csproj": {}
   },
   "projects": {
-    "C:\\Users\\hoang\\OneDrive\\Máy tính\\WebBookShop\\NewAppBookShop.csproj": {
+    "D:\\CodeProject\\c#\\NewAppBookShop\\NewAppBookShop\\NewAppBookShop.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\hoang\\OneDrive\\Máy tính\\WebBookShop\\NewAppBookShop.csproj",
+        "projectUniqueName": "D:\\CodeProject\\c#\\NewAppBookShop\\NewAppBookShop\\NewAppBookShop.csproj",
         "projectName": "NewAppBookShop",
-        "projectPath": "C:\\Users\\hoang\\OneDrive\\Máy tính\\WebBookShop\\NewAppBookShop.csproj",
-        "packagesPath": "C:\\Users\\hoang\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\hoang\\OneDrive\\Máy tính\\WebBookShop\\obj\\",
+        "projectPath": "D:\\CodeProject\\c#\\NewAppBookShop\\NewAppBookShop\\NewAppBookShop.csproj",
+        "packagesPath": "C:\\Users\\Admin\\.nuget\\packages\\",
+        "outputPath": "D:\\CodeProject\\c#\\NewAppBookShop\\NewAppBookShop\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
-          "C:\\Users\\hoang\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Users\\Admin\\AppData\\Roaming\\NuGet\\NuGet.Config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
         ],
         "originalTargetFrameworks": [
@@ -130,7 +130,7 @@
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\8.0.400/PortableRuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\8.0.403/PortableRuntimeIdentifierGraph.json"
         }
       }
     }
