@@ -23,21 +23,18 @@
         <div class="sidebar-content">
             <ul class="nav nav-secondary">
                 <li class="nav-item @(ViewData["ActiveMenu"] as string == "TrangChu" ? "active" : "")">
-                    <a
-                       href="/admin/dashboard">
-                 
-                      
+                    <a href="/admin/dashboard">
+
+
                         <i class="fas fa-home"></i>
                         <p>Trang chủ</p>
                     </a>
-                    
+
                 </li>
                 <div class="nav">
                     <!-- Trang chủ -->
-               
+                    <!-- Quản lý bán hàng -->
 
-                <!-- Quản lý bán hàng -->
-                
                 <li class="nav-item @(ViewData["ActiveMenu"] as string == "DonHang" ? "active" : "")">
                     <a data-bs-toggle="collapse" href="#collapseSales">
                         <i class="fas fa-columns"></i>
@@ -75,24 +72,86 @@
                 </li>
 
                 <!-- Quản lý tài nguyên sách -->
-                
+
                 <li class="nav-item @((ViewData["ActiveMenu"] as string) == "Sach" ? "active" : "")">
                     <a data-bs-toggle="collapse" href="#collapseBooks">
                         <i class="fas fa-book-open"></i>
-                        <p>Sách</p>
+                        <p>Tài nguyên sách</p>
                         <span class="caret"></span>
                     </a>
                     <div class="collapse" id="collapseBooks">
                         <ul class="nav nav-collapse">
-                            <li><a href="layout-static.html"><span class="sub-item">Thêm sách</span></a></li>
-                            <li><a href="layout-sidenav-light.html"><span class="sub-item">Tra cứu sách</span></a></li>
-                            <li><a href="layout-sidenav-light.html"><span class="sub-item">Báo cáo-Thống kê</span></a></li>
+                            <!-- Menu con "Nhà Xuất Bản" -->
+                            <li>
+                                <a data-bs-toggle="collapse" href="#collapsePublisher">
+                                    <span class="sub-item">Nhà xuất bản</span>
+                                    <span class="caret"></span>
+                                </a>
+                                <div class="collapse" id="collapsePublisher">
+                                    <ul class="nav nav-collapse subnav">
+                                        <li>
+                                            <a href="/Author/List">
+                                                <span class="sub-item">Danh sách</span>
+                                            </a>
+                                        </li>
+                                        <li>
+                                            <a href="/Author/Search">
+                                                <span class="sub-item">Tra cứu</span>
+                                            </a>
+                                        </li>
+                                    </ul>
+                                </div>
+                            </li>
+
+                            <!-- Menu con "Tác Giả" -->
+                            <li>
+                                <a data-bs-toggle="collapse" href="#collapseAuthors">
+                                    <span class="sub-item">Tác Giả</span>
+                                    <span class="caret"></span>
+                                </a>
+                                <div class="collapse" id="collapseAuthors">
+                                    <ul class="nav nav-collapse subnav">
+                                        <li>
+                                            <a href="/Author/List">
+                                                <span class="sub-item">Danh sách</span>
+                                            </a>
+                                        </li>
+                                        <li>
+                                            <a href="/Author/Search">
+                                                <span class="sub-item">Tra cứu</span>
+                                            </a>
+                                        </li>
+                                    </ul>
+                                </div>
+                            </li>
+
+                            <!-- Menu con "Sách" -->
+                            <li>
+                                <a data-bs-toggle="collapse" href="#collapseBooksSub">
+                                    <span class="sub-item">Sách</span>
+                                    <span class="caret"></span>
+                                </a>
+                                <div class="collapse" id="collapseBooksSub">
+                                    <ul class="nav nav-collapse subnav">
+                                        <li>
+                                            <a href="/Admin/books">
+                                                <span class="sub-item">Danh sách</span>
+                                            </a>
+                                        </li>
+                                        <li>
+                                            <a href="/Book/Search">
+                                                <span class="sub-item">Tra cứu</span>
+                                            </a>
+                                        </li>
+                                    </ul>
+                                </div>
+                            </li>
                         </ul>
                     </div>
                 </li>
 
                 <!-- Quản lý nhập hàng -->
-                
+
                 <li class="nav-item @((ViewData["ActiveMenu"] as string) == "Nhaphang" ? "active" : "")">
                     <a data-bs-toggle="collapse" href="#collapseImports">
                         <i class="fa-solid fa-receipt"></i>
@@ -109,7 +168,7 @@
                 </li>
 
                 <!-- Quản lý nhân viên -->
-                
+
                 <li class="nav-item">
                     <a data-bs-toggle="collapse" href="#collapseEmployees">
                         <i class="fa-solid fa-users-line"></i>
@@ -140,8 +199,8 @@
                 </li>
 
         </div>
-                
-            </ul>
-        </div>
+
+        </ul>
     </div>
+</div>
 </div>

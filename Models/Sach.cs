@@ -13,7 +13,7 @@ public partial class Sach
 
     public long MaNxb { get; set; }
 
-    public string TheLoai { get; set; } = null!;
+    public int MaTheLoai { get; set; }
 
     public decimal GiaBan { get; set; }
 
@@ -21,13 +21,14 @@ public partial class Sach
 
     public virtual ICollection<ChiTietGioHang> ChiTietGioHangs { get; set; } = new List<ChiTietGioHang>();
 
-    public virtual ICollection<ChiTietHoaDonMua> ChiTietHoaDonMuas { get; set; } = new List<ChiTietHoaDonMua>();
-
     public virtual ICollection<ChiTietHoaDonNhap> ChiTietHoaDonNhaps { get; set; } = new List<ChiTietHoaDonNhap>();
 
+    public virtual ICollection<ChiTietHoaDonMua> ChiTietHoaDonMuas { get; set; } = new List<ChiTietHoaDonMua>();
     public virtual NhaXuatBan MaNxbNavigation { get; set; } = null!;
 
     public virtual TacGium MaTacGiaNavigation { get; set; } = null!;
+
+    public virtual TheLoai MaTheLoaiNavigation { get; set; } = null!;
 
     public virtual ICollection<TonKho> TonKhos { get; set; } = new List<TonKho>();
 }

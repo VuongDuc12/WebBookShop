@@ -32,9 +32,9 @@ builder.Services.AddIdentity<APpUser, IdentityRole>(options =>
 .AddEntityFrameworkStores<NewAppBookShopContext>()
 .AddDefaultUI()
 .AddDefaultTokenProviders();
+builder.Services.AddControllersWithViews().AddRazorRuntimeCompilation();
 
 
-    
 
 // Thêm Razor Pages với hỗ trợ Microsoft Identity UI
 builder.Services.AddRazorPages()

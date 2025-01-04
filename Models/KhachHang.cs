@@ -21,7 +21,11 @@ public partial class KhachHang
 
     public decimal TongChiTieu { get; set; }
 
+    public int? MaBac { get; set; }
+
     public virtual ICollection<HoaDonMua> HoaDonMuas { get; set; } = new List<HoaDonMua>();
+
+    public virtual BacKhachHang? MaBacNavigation { get; set; }
 
     public virtual AspNetUser User { get; set; } = null!;
 }

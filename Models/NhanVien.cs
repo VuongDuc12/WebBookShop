@@ -19,11 +19,17 @@ public partial class NhanVien
 
     public DateOnly NgayVaoLam { get; set; }
 
-    public decimal Luong { get; set; }
+    public decimal LuongCoBan { get; set; }
+
+    public int? MaChucVu { get; set; }
+
+    public bool? TrangThai { get; set; }
 
     public virtual ICollection<HoaDonMua> HoaDonMuas { get; set; } = new List<HoaDonMua>();
 
     public virtual ICollection<HoaDonNhap> HoaDonNhaps { get; set; } = new List<HoaDonNhap>();
+
+    public virtual ChucVu? MaChucVuNavigation { get; set; }
 
     public virtual AspNetUser User { get; set; } = null!;
 }

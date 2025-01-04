@@ -1,6 +1,7 @@
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using NewAppBookShop.Data;
 using NewAppBookShop.Models;  // Thêm namespace chứa model KhachHang
 
 namespace NewAppBookShop.Areas.Admin.Controllers
