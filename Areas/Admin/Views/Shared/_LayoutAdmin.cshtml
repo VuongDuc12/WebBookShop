@@ -8,11 +8,13 @@
           name="viewport" />
     <link rel="icon"
           href="~/img/kaiadmin/favicon.ico"
-          type="image/x-icon" >
+          type="image/x-icon">
 
     <!-- Fonts and icons -->
     <script src="~/js/plugin/webfont/webfont.min.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/simple-line-icons/2.5.5/css/simple-line-icons.min.css" integrity="sha512-QKC1UZ/ZHNgFzVKSAhV5v5j73eeL9EEN289eKAEFaAjgAiobVAnVv/AGuPbXsKl1dNoel3kNr6PYnSiTzVVBCw==" crossorigin="anonymous" referrerpolicy="no-referrer" />
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css" integrity="sha512-Evv84Mr4kqVGRNSgIGL/F/aIDqQb7xQ2vcrdIwxfjThSH8CSR7PBEakCr51Ck+w+/U6swU2Im1vVX0SVk9ABhg==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.min.css">
 
     <!-- CSS Files -->
     <link rel="stylesheet" href="~/css/bootstrap.min.css" />
@@ -21,6 +23,7 @@
 
     <!-- CSS Just for demo purpose, don't include it in your project -->
     <link rel="stylesheet" href="~/css/demo.css" />
+
 </head>
 <body>
     <div class="wrapper">
@@ -55,7 +58,7 @@
                 </div>
                 <!-- Navbar Header -->
                 <nav class="navbar navbar-header navbar-header-transparent navbar-expand-lg border-bottom">
-                    <div class="container-fluid">
+                    <div class="container">
                         <nav class="navbar navbar-header-left navbar-expand-lg navbar-form nav-search p-0 d-none d-lg-flex">
                             <div class="input-group">
                                 <div class="input-group-prepend">
@@ -360,7 +363,7 @@
 
         <div class="container">
 
-           @RenderBody()
+                @RenderBody()
         </div>
 
         <footer class="footer">
@@ -425,44 +428,43 @@
 
     <!-- Kaiadmin JS -->
     <script src="~/js/kaiadmin.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
     <!-- Kaiadmin DEMO methods, don't include it in your project! -->
-    <script src="~/js/setting-demo.js"></script>
-    <script src="~/js/demo.js"></script>
     <script>
         $("#lineChart").sparkline([102, 109, 120, 99, 110, 105, 115], {
-          type: "line",
-          height: "70",
-          width: "100%",
-          lineWidth: "2",
-          lineColor: "#177dff",
-          fillColor: "rgba(23, 125, 255, 0.14)",
+            type: "line",
+            height: "70",
+            width: "100%",
+            lineWidth: "2",
+            lineColor: "#177dff",
+            fillColor: "rgba(23, 125, 255, 0.14)",
         });
 
         $("#lineChart2").sparkline([99, 125, 122, 105, 110, 124, 115], {
-          type: "line",
-          height: "70",
-          width: "100%",
-          lineWidth: "2",
-          lineColor: "#f3545d",
-          fillColor: "rgba(243, 84, 93, .14)",
+            type: "line",
+            height: "70",
+            width: "100%",
+            lineWidth: "2",
+            lineColor: "#f3545d",
+            fillColor: "rgba(243, 84, 93, .14)",
         });
 
         $("#lineChart3").sparkline([105, 103, 123, 100, 95, 105, 115], {
-          type: "line",
-          height: "70",
-          width: "100%",
-          lineWidth: "2",
-          lineColor: "#ffa534",
-          fillColor: "rgba(255, 165, 52, .14)",
+            type: "line",
+            height: "70",
+            width: "100%",
+            lineWidth: "2",
+            lineColor: "#ffa534",
+            fillColor: "rgba(255, 165, 52, .14)",
         });
         document.addEventListener("DOMContentLoaded", function () {
             const notify = document.querySelector('[data-notify="container"]');
             if (notify) {
-            
+
                 const title = notify.querySelector('[data-notify="title"]');
                 const message = notify.querySelector('[data-notify="message"]');
-                
+
                 if (title) title.textContent = "Mistery";
                 if (message) message.textContent = "Chào mừng bạn đã đến với Mistery Admin.";
             }

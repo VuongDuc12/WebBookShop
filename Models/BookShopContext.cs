@@ -1,8 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
 using Microsoft.EntityFrameworkCore;
+using NewAppBookShop.Models;
 
-namespace NewAppBookShop.Models;
+namespace NewAppBookShop.Data;
 
 public partial class BookShopContext : DbContext
 {
@@ -27,11 +28,15 @@ public partial class BookShopContext : DbContext
 
     public virtual DbSet<AspNetUserToken> AspNetUserTokens { get; set; }
 
+    public virtual DbSet<BacKhachHang> BacKhachHangs { get; set; }
+
     public virtual DbSet<ChiTietGioHang> ChiTietGioHangs { get; set; }
 
     public virtual DbSet<ChiTietHoaDonMua> ChiTietHoaDonMuas { get; set; }
 
     public virtual DbSet<ChiTietHoaDonNhap> ChiTietHoaDonNhaps { get; set; }
+
+    public virtual DbSet<ChucVu> ChucVus { get; set; }
 
     public virtual DbSet<GioHang> GioHangs { get; set; }
 
@@ -51,10 +56,13 @@ public partial class BookShopContext : DbContext
 
     public virtual DbSet<TacGium> TacGia { get; set; }
 
+    public virtual DbSet<TheLoai> TheLoais { get; set; }
+
     public virtual DbSet<TonKho> TonKhos { get; set; }
 
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
-        => optionsBuilder.UseSqlServer("Name=ConnectionStrings:NewAppBookShopContextConnection");
+#warning To protect potentially sensitive information in your connection string, you should move it out of source code. You can avoid scaffolding the connection string by using the Name= syntax to read it from configuration - see https://go.microsoft.com/fwlink/?linkid=2131148. For more guidance on storing connection strings, see https://go.microsoft.com/fwlink/?LinkId=723263.
+        => optionsBuilder.UseSqlServer("Server=HOANGLANNN\\SQLEXPRESS;Database=NewAppBookShop;Trusted_Connection=True;TrustServerCertificate=True;");
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
@@ -130,6 +138,16 @@ public partial class BookShopContext : DbContext
             entity.HasOne(d => d.User).WithMany(p => p.AspNetUserTokens).HasForeignKey(d => d.UserId);
         });
 
+        modelBuilder.Entity<BacKhachHang>(entity =>
+        {
+            entity.HasKey(e => e.MaBac);
+
+            entity.ToTable("BacKhachHang");
+
+            entity.Property(e => e.MaBac).ValueGeneratedNever();
+            entity.Property(e => e.TenBac).HasMaxLength(50);
+        });
+
         modelBuilder.Entity<ChiTietGioHang>(entity =>
         {
             entity.HasKey(e => e.Id).HasName("PK__ChiTietG__3214EC072B99F11B");
@@ -151,22 +169,23 @@ public partial class BookShopContext : DbContext
 
         modelBuilder.Entity<ChiTietHoaDonMua>(entity =>
         {
-            entity.HasKey(e => new { e.SoHdmua, e.MaSach });
+            entity.HasKey(e => new { e.SoHdmua, e.MaSach }); // Composite key
 
             entity.ToTable("ChiTietHoaDonMua");
 
-            entity.Property(e => e.SoHdmua).HasColumnName("SoHDMua");
             entity.Property(e => e.DonGia).HasColumnType("decimal(18, 2)");
 
-            entity.HasOne(d => d.MaSachNavigation).WithMany(p => p.ChiTietHoaDonMuas)
-                .HasForeignKey(d => d.MaSach)
-                .OnDelete(DeleteBehavior.ClientSetNull)
-                .HasConstraintName("FK_ChiTietHoaDonMua_Sach");
-
-            entity.HasOne(d => d.SoHdmuaNavigation).WithMany(p => p.ChiTietHoaDonMuas)
+            entity.HasOne(d => d.SoHdmuaNavigation)
+                .WithMany(p => p.ChiTietHoaDonMuas)
                 .HasForeignKey(d => d.SoHdmua)
                 .OnDelete(DeleteBehavior.ClientSetNull)
                 .HasConstraintName("FK_ChiTietHoaDonMua_HoaDonMua");
+
+            entity.HasOne(d => d.MaSachNavigation)
+                .WithMany(p => p.ChiTietHoaDonMuas)
+                .HasForeignKey(d => d.MaSach)
+                .OnDelete(DeleteBehavior.ClientSetNull)
+                .HasConstraintName("FK_ChiTietHoaDonMua_Sach");
         });
 
         modelBuilder.Entity<ChiTietHoaDonNhap>(entity =>
@@ -189,6 +208,18 @@ public partial class BookShopContext : DbContext
                 .HasConstraintName("FK_ChiTietHoaDonNhap_HoaDonNhap");
         });
 
+        modelBuilder.Entity<ChucVu>(entity =>
+        {
+            entity.HasKey(e => e.MaChucVu);
+
+            entity.ToTable("ChucVu");
+
+            entity.Property(e => e.MaChucVu).ValueGeneratedNever();
+            entity.Property(e => e.LuongChinhThuc).HasColumnType("decimal(18, 2)");
+            entity.Property(e => e.MoTa).HasMaxLength(50);
+            entity.Property(e => e.TenChucVu).HasMaxLength(50);
+        });
+
         modelBuilder.Entity<GioHang>(entity =>
         {
             entity.HasKey(e => e.Id).HasName("PK__GioHang__3214EC07F17C1F36");
@@ -208,30 +239,48 @@ public partial class BookShopContext : DbContext
 
         modelBuilder.Entity<HoaDonMua>(entity =>
         {
-            entity.HasKey(e => e.SoHdmua).HasName("PK__HoaDonMu__057986317CC446DC");
+            // Đặt khóa chính cho bảng HoaDonMua
+            entity.HasKey(e => e.SoHdmua)
+                  .HasName("PK_HoaDonMua");
 
+            // Đặt tên bảng
             entity.ToTable("HoaDonMua");
 
-            entity.Property(e => e.SoHdmua).HasColumnName("SoHDMua");
-            entity.Property(e => e.MaKh).HasColumnName("MaKH");
-            entity.Property(e => e.MaNv).HasColumnName("MaNV");
+            // Cấu hình các cột
+            entity.Property(e => e.SoHdmua)
+                  .HasColumnName("SoHDMua"); // Tên cột trong database
+
+            entity.Property(e => e.MaKh)
+                  .HasColumnName("MaKH"); // Tên cột trong database
+
+            entity.Property(e => e.MaNv)
+                  .HasColumnName("MaNV"); // Tên cột trong database
+
             entity.Property(e => e.NgayMua)
-                .HasDefaultValueSql("(getdate())")
-                .HasColumnType("datetime");
-            entity.Property(e => e.TongTien).HasColumnType("decimal(18, 2)");
+                  .HasDefaultValueSql("(getdate())") // Giá trị mặc định là ngày hiện tại
+                  .HasColumnType("datetime"); // Kiểu dữ liệu trong SQL
+
+            entity.Property(e => e.TongTien)
+                  .HasColumnType("decimal(18, 2)"); // Kiểu tiền tệ
+
             entity.Property(e => e.TrangThai)
-                .HasMaxLength(50)
-                .HasDefaultValue("Đang xử lý");
+                  .HasMaxLength(50) // Giới hạn độ dài chuỗi
+                  .HasDefaultValue("Đang xử lý"); // Giá trị mặc định
 
-            entity.HasOne(d => d.MaKhNavigation).WithMany(p => p.HoaDonMuas)
-                .HasForeignKey(d => d.MaKh)
-                .OnDelete(DeleteBehavior.ClientSetNull)
-                .HasConstraintName("FK_HoaDonMua_KhachHang");
+            // Cấu hình quan hệ với KhachHang
+            entity.HasOne(d => d.MaKhNavigation)
+                  .WithMany(p => p.HoaDonMuas)
+                  .HasForeignKey(d => d.MaKh)
+                  .OnDelete(DeleteBehavior.ClientSetNull) // Không xóa liên quan nếu khóa chính bị xóa
+                  .HasConstraintName("FK_HoaDonMua_KhachHang");
 
-            entity.HasOne(d => d.MaNvNavigation).WithMany(p => p.HoaDonMuas)
-                .HasForeignKey(d => d.MaNv)
-                .HasConstraintName("FK_HoaDonMua_NhanVien");
+            // Cấu hình quan hệ với NhanVien
+            entity.HasOne(d => d.MaNvNavigation)
+                  .WithMany(p => p.HoaDonMuas)
+                  .HasForeignKey(d => d.MaNv)
+                  .HasConstraintName("FK_HoaDonMua_NhanVien");
         });
+
 
         modelBuilder.Entity<HoaDonNhap>(entity =>
         {
@@ -270,6 +319,10 @@ public partial class BookShopContext : DbContext
                 .HasColumnName("TenKH");
             entity.Property(e => e.TongChiTieu).HasColumnType("decimal(18, 2)");
             entity.Property(e => e.UserId).HasMaxLength(450);
+
+            entity.HasOne(d => d.MaBacNavigation).WithMany(p => p.KhachHangs)
+                .HasForeignKey(d => d.MaBac)
+                .HasConstraintName("FK_KhachHang_BacKhachHang");
 
             entity.HasOne(d => d.User).WithMany(p => p.KhachHangs)
                 .HasForeignKey(d => d.UserId)
@@ -320,13 +373,17 @@ public partial class BookShopContext : DbContext
 
             entity.Property(e => e.MaNv).HasColumnName("MaNV");
             entity.Property(e => e.DiaChi).HasMaxLength(500);
-            entity.Property(e => e.Luong).HasColumnType("decimal(18, 2)");
+            entity.Property(e => e.LuongCoBan).HasColumnType("decimal(18, 2)");
             entity.Property(e => e.NgayVaoLam).HasDefaultValueSql("(getdate())");
             entity.Property(e => e.SoDienThoai).HasMaxLength(20);
             entity.Property(e => e.TenNv)
                 .HasMaxLength(255)
                 .HasColumnName("TenNV");
             entity.Property(e => e.UserId).HasMaxLength(450);
+
+            entity.HasOne(d => d.MaChucVuNavigation).WithMany(p => p.NhanViens)
+                .HasForeignKey(d => d.MaChucVu)
+                .HasConstraintName("FK_NhanVien_ChucVu");
 
             entity.HasOne(d => d.User).WithMany(p => p.NhanViens)
                 .HasForeignKey(d => d.UserId)
@@ -343,7 +400,6 @@ public partial class BookShopContext : DbContext
             entity.Property(e => e.GiaBan).HasColumnType("decimal(18, 2)");
             entity.Property(e => e.MaNxb).HasColumnName("MaNXB");
             entity.Property(e => e.TenSach).HasMaxLength(255);
-            entity.Property(e => e.TheLoai).HasMaxLength(100);
             entity.Property(e => e.TrangThai).HasDefaultValue(true);
 
             entity.HasOne(d => d.MaNxbNavigation).WithMany(p => p.Saches)
@@ -355,6 +411,11 @@ public partial class BookShopContext : DbContext
                 .HasForeignKey(d => d.MaTacGia)
                 .OnDelete(DeleteBehavior.ClientSetNull)
                 .HasConstraintName("FK_Sach_TacGia");
+
+            entity.HasOne(d => d.MaTheLoaiNavigation).WithMany(p => p.Saches)
+                .HasForeignKey(d => d.MaTheLoai)
+                .OnDelete(DeleteBehavior.ClientSetNull)
+                .HasConstraintName("FK_Sach_TheLoai");
         });
 
         modelBuilder.Entity<TacGium>(entity =>
@@ -365,6 +426,16 @@ public partial class BookShopContext : DbContext
             entity.Property(e => e.TenTg)
                 .HasMaxLength(255)
                 .HasColumnName("TenTG");
+        });
+
+        modelBuilder.Entity<TheLoai>(entity =>
+        {
+            entity.HasKey(e => e.MaTheLoai);
+
+            entity.ToTable("TheLoai");
+
+            entity.Property(e => e.MaTheLoai).ValueGeneratedNever();
+            entity.Property(e => e.TenTheLoai).HasMaxLength(50);
         });
 
         modelBuilder.Entity<TonKho>(entity =>

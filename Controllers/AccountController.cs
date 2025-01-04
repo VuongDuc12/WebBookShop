@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore.Metadata.Internal;
 using NewAppBookShop.Areas.Identity.Data;
+using NewAppBookShop.Data;
 using NewAppBookShop.Models;
 using NewAppBookShop.ViewModels;
 using static System.Runtime.InteropServices.JavaScript.JSType;

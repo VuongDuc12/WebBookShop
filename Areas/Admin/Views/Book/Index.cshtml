@@ -1,0 +1,265 @@
+﻿@model List<NewAppBookShop.Models.Sach>
+
+@{
+    ViewData["Title"] = "Quản lý sách";
+    Layout = "~/Areas/Admin/Views/Shared/_LayoutAdmin.cshtml";
+}
+
+<div class="page-inner">
+    <div class="page-header d-flex flex-row justify-content-between">
+        <div class="d-flex flex-row">
+            <ul class="breadcrumbs mb-3">
+                <li class="nav-home">
+                    <a href="#">
+                        <i class="icon-home"></i>
+                    </a>
+                </li>
+                <li class="separator">
+                    <i class="icon-arrow-right"></i>
+                </li>
+                <li class="nav-item">
+                    <a href="#">Tài nguyên Sách</a>
+                </li>
+                <li class="separator">
+                    <i class="icon-arrow-right"></i>
+                </li>
+                <li class="nav-item">
+                    <a href="#">Sách</a>
+                </li>
+                <li class="separator">
+                    <i class="icon-arrow-right"></i>
+                </li>
+                <li class="nav-item">
+                    <a href="#">Danh sách</a>
+                </li>
+            </ul>
+        </div>
+        <div>
+            <button class="btn btn-success" data-bs-toggle="modal" data-bs-target="#addBookModal"><i class="fa-solid fa-plus"></i> Thêm sách</button>
+        </div>
+
+
+    </div>
+    <div class="row">
+        <div class="card">
+            <div class="card-header">
+                <div class="card-title">Danh sách Sách</div>
+            </div>
+            <div class="card-body">
+                <table class="table table-striped mt-3">
+                    <thead>
+                        <tr>
+                            <th>Tên sách</th>
+                            <th>Tác giả</th>
+                            <th>Nhà xuất bản</th>
+                            <th>Thể Loại</th>
+                            <th>Giá bán</th>
+                            <th>Trạng thái</th>
+                            <th>Hành động</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var book in Model)
+                        {
+                            <tr>
+                                <td>@book.TenSach</td>
+                                <td>@book.MaTacGiaNavigation?.TenTg</td>
+                                <td>@book.MaNxbNavigation?.TenNxb</td>
+                                <td>@book.MaTheLoaiNavigation.TenTheLoai</td>
+                                <td>@book.GiaBan</td>
+                                <td class=" text-center">
+                                    <span class="@(book.TrangThai ? "badge badge-success text-center" : "badge badge-danger text-center")">
+                                        @(book.TrangThai ? "Xuất bản" : "Ngừng xuất bản")
+                                    </span>
+                                </td>
+
+                                <td>
+                                    <div class="dropdown">
+                                        <button class="btn btn-default dropdown-toggle " type="button" id="dropdownMenuButton" data-bs-toggle="dropdown" aria-expanded="false">
+                                            <i class="fa-solid fa-ellipsis-vertical"></i>
+                                        </button>
+                                        <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                                            <li>
+                                                <a class="dropdown-item" href="@Url.Action("Edit", "Book", new { id = book.MaSach })">
+                                                    <i class="bi bi-pencil"></i> Sửa
+                                                </a>
+                                            </li>
+                                            <li>
+                                                <button class="btn btn-danger" style="white-space:nowrap" onclick="deleteBook(@book.MaSach)">
+                                                    Ngừng xuất bản
+                                                </button>
+                                            </li>
+                                        </ul>
+                                    </div>
+                                </td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- Modal Thêm sách -->
+<div class="modal fade" id="addBookModal" tabindex="-1" aria-labelledby="addBookModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="addBookModalLabel">Thêm sách mới</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <form id="addBookForm">
+                    <div class="mb-3">
+                        <label for="bookName" class="form-label">Tên sách</label>
+                        <input type="text" class="form-control" id="bookName" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="author" class="form-label">Tác giả</label>
+                        <select class="form-select" id="author" required>
+                            <option value="">Chọn tác giả</option>
+                            @foreach (var author in ViewBag.Authors as List<NewAppBookShop.Models.TacGium>)
+                            {
+                                <option value="@author.MaTg">@author.TenTg</option>
+                            }
+                        </select>
+                    </div>
+                    <div class="mb-3">
+                        <label for="publisher" class="form-label">Nhà xuất bản</label>
+                        <select class="form-select" id="publisher" required>
+                            <option value="">Chọn nhà xuất bản</option>
+                            @foreach (var publisher in ViewBag.Publishers as List<NewAppBookShop.Models.NhaXuatBan>)
+                            {
+                                <option value="@publisher.MaNxb">@publisher.TenNxb</option>
+                            }
+                        </select>
+                    </div>
+                    <div class="mb-3">
+                        <label for="category" class="form-label">Thể loại</label>
+                        <select class="form-select" id="category" required>
+                            <option value="">Chọn thể loại</option>
+                            @foreach (var category in ViewBag.Category as List<NewAppBookShop.Models.TheLoai>)
+                            {
+                                <option value="@category.MaTheLoai">@category.TenTheLoai</option>
+                            }
+                        </select>
+                    </div>
+                    <div class="mb-3">
+                        <label for="price" class="form-label">Giá bán</label>
+                        <input type="number" class="form-control" id="price" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="status" class="form-label">Trạng thái</label>
+                        <select class="form-select" id="status" required>
+                            <option value="true">Có sẵn</option>
+                            <option value="false">Hết hàng</option>
+                        </select>
+                    </div>
+                    <button type="submit" class="btn btn-primary">Lưu</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<script>
+    function deleteBook(bookId) {
+        console.log("Book ID: ", bookId);  // Kiểm tra bookId
+        Swal.fire({
+            title: 'Bạn có chắc chắn?',
+            text: 'Sách này sẽ bị ngừng xuất bản!',
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '#3085d6',
+            cancelButtonColor: '#d33',
+            confirmButtonText: 'Xóa',
+            cancelButtonText: 'Hủy'
+        }).then((result) => {
+            if (result.isConfirmed) {
+                // Sửa lại Fetch request
+                fetch(`/admin/books/delete/${bookId}`, {
+                    method: 'DELETE',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Accept': 'application/json'  // Đảm bảo có Accept header
+                    }
+                })
+                    .then(response => response.json())  // Đảm bảo nhận lại dữ liệu JSON
+                    .then(data => {
+                        if (data.success) {
+                            Swal.fire(
+                                'Thông báo',
+                                'Thay đổi trạng thái thành công',
+                                'success'
+                            ).then(() => {
+                                location.reload();
+                            });
+                        } else {
+                            Swal.fire(
+                                'Lỗi!',
+                                data.message || 'Không thể thay đổi trạng thái sách. Vui lòng thử lại.',
+                                'error'
+                            );
+                        }
+                    })
+                    .catch(() => {
+                        Swal.fire(
+                            'Lỗi!',
+                            'Không thể thay đổi trạng thái sách. Vui lòng thử lại.',
+                            'error'
+                        );
+                    });
+            }
+        });
+    }
+
+    document.getElementById("addBookForm").addEventListener("submit", function (event) {
+        event.preventDefault();
+
+        // Lấy thông tin từ form
+        const bookName = document.getElementById("bookName").value;
+        const authorId = document.getElementById("author").value;  // MaTacGia
+        const publisherId = document.getElementById("publisher").value;  // MaNXB
+        const price = document.getElementById("price").value;
+        const status = document.getElementById("status").value === "true"; // Chuyển thành boolean (true hoặc false)
+        const category = document.getElementById("category").value;  // TheLoai
+
+        const bookData = {
+            TenSach: bookName,
+            MaTacGiaNavigation: parseInt(authorId), // Chuyển thành kiểu số
+            MaNxbNavigation: parseInt(publisherId), // Chuyển thành kiểu số
+            GiaBan: parseFloat(price), // Đảm bảo giá trị là kiểu số thập phân
+            TrangThai: status, // Truyền giá trị boolean (true hoặc false)
+            MaTheLoaiNavigation: category // Truyền giá trị thể loại
+        };
+
+        // Gửi dữ liệu tới controller qua Fetch API
+        fetch('/admin/books/add', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify(bookData)
+        })
+            .then(response => response.json())
+            .then(data => {
+                if (data.success) {
+                    // Đóng modal và tải lại trang
+                    Swal.fire('Thêm sách thành công!', '', 'success').then(() => {
+                        location.reload();  // Tải lại trang sau khi thêm sách thành công
+                    });
+                } else {
+                    Swal.fire('Lỗi', data.message || 'Không thể thêm sách', 'error');
+                }
+            })
+            .catch(error => {
+                console.error('Lỗi khi thêm sách:', error);
+                Swal.fire('Lỗi', 'Có lỗi xảy ra khi thêm sách. Vui lòng thử lại', 'error');
+            });
+    });
+
+
+
+
+</script>
