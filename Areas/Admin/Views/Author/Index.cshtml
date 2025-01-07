@@ -1,0 +1,252 @@
+﻿@model List<NewAppBookShop.Models.TacGium>
+
+@{
+    ViewData["Title"] = "Quản lý Tác giả";
+    Layout = "~/Areas/Admin/Views/Shared/_LayoutAdmin.cshtml";
+}
+
+
+<div class="page-inner">
+    <div class="page-header d-flex flex-row justify-content-between">
+        <div class="d-flex flex-row">
+            <ul class="breadcrumbs mb-3">
+                <li class="nav-home">
+                    <a href="#">
+                        <i class="icon-home"></i>
+                    </a>
+                </li>
+                <li class="separator">
+                    <i class="icon-arrow-right"></i>
+                </li>
+                <li class="nav-item">
+                    <a href="#">Tài nguyên Sách</a>
+                </li>
+                <li class="separator">
+                    <i class="icon-arrow-right"></i>
+                </li>
+                <li class="nav-item">
+                    <a href="#">Tác giả</a>
+                </li>
+                <li class="separator">
+                    <i class="icon-arrow-right"></i>
+                </li>
+                <li class="nav-item">
+                    <a href="#">Danh sách</a>
+                </li>
+            </ul>
+        </div>
+        <div>
+            <button class="btn btn-success" data-bs-toggle="modal" data-bs-target="#addAuthorModal">
+                <i class="fa-solid fa-plus"></i> Thêm Tác giả
+            </button>
+        </div>
+
+
+    </div>
+    <div class="row">
+        <div class="card">
+            <div class="card-header">
+                <div class="card-title">Danh sách Tác giả</div>
+            </div>
+            <div class="card-body">
+                <table class="table table-striped mt-3">
+                    <thead>
+                        <tr>
+                            <th>Mã tác giả</th>
+                            <th>Tên tác giả</th>
+                            <th>Hành động</th>
+
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var author in Model)
+                        {
+                            <tr>
+                                <td>@author.MaTg</td>
+                                <td>@author.TenTg</td>
+                               
+
+                                <td>
+                                    <div class="dropdown">
+                                        <button class="btn btn-default dropdown-toggle " type="button" id="dropdownMenuButton" data-bs-toggle="dropdown" aria-expanded="false">
+                                            <i class="fa-solid fa-ellipsis-vertical"></i>
+                                        </button>
+                                        <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                                            <li class="bg-info rounded">
+                                                <button class="btn btn-info btn-sm my-1 rounded" onclick="openEditAuthorModal(@author.MaTg, '@author.TenTg')">
+                                                    Sửa
+                                                </button>
+                                            </li>
+                                            
+                                        </ul>
+                                    </div>
+                                </td>
+
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="addAuthorModal" tabindex="-1" aria-labelledby="addAuthorModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="addAuthorModalLabel">Thêm Tác Giả</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <form id="addAuthorForm">
+                    <div class="mb-3">
+                        <label for="authorName" class="form-label">Tên Tác Giả</label>
+                        <input type="text" class="form-control" id="authorName" required>
+                    </div>
+                    <div class="text-end">
+                        <button type="submit" class="btn btn-primary">Thêm</button>
+
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- Modal sửa tác giả -->
+<div class="modal fade" id="editAuthorModal" tabindex="-1" aria-labelledby="editAuthorModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="editAuthorModalLabel">Sửa Tác Giả</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <form id="editAuthorForm">
+                    <div class="mb-3">
+                        <label for="authorNameedit" class="form-label">Tên Tác Giả</label>
+                        <input type="text" class="form-control" id="authorNameedit" required>
+                    </div>
+                    <input type="hidden" id="authorId">
+                    <div class="text-end">
+                        <button type="submit" class="btn btn-primary">Lưu thay đổi</button>
+
+
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+<script>
+    document.getElementById("addAuthorForm").addEventListener("submit", function (event) {
+        event.preventDefault();
+
+        const authorName = document.getElementById("authorName").value;
+
+        const newAuthor = {
+            TenTg: authorName
+        };
+
+        fetch("/admin/authors/add", {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify(newAuthor)
+        })
+            .then(response => response.json())
+            .then(data => {
+                if (data.success) {
+                    Swal.fire(
+                        'Thêm thành công!',
+                        'Tác giả đã được thêm vào hệ thống.',
+                        'success'
+                    ).then(() => {
+                        // Đóng modal sau khi thêm tác giả thành công
+                        $('#addAuthorModal').modal('hide');
+                        // Cập nhật lại danh sách tác giả hoặc làm mới trang
+                        location.reload();
+                    });
+                } else {
+                    Swal.fire(
+                        'Lỗi!',
+                        data.message || 'Không thể thêm tác giả. Vui lòng thử lại.',
+                        'error'
+                    );
+                }
+            })
+            .catch(error => {
+                Swal.fire(
+                    'Lỗi!',
+                    'Đã xảy ra lỗi. Vui lòng thử lại.',
+                    'error'
+                );
+                console.error("Error:", error);
+            });
+    });
+    // Mở modal sửa tác giả và điền thông tin
+    function openEditAuthorModal(authorId, authorName) {
+        // Cập nhật thông tin vào form
+        document.getElementById("authorNameedit").value = authorName;
+        document.getElementById("authorId").value = authorId;
+
+        // Mở modal
+        $('#editAuthorModal').modal('show');
+    }
+
+    // Xử lý sự kiện gửi form sửa tác giả
+    document.getElementById("editAuthorForm").addEventListener("submit", function (event) {
+        event.preventDefault();
+
+        const authorId = document.getElementById("authorId").value;
+        const authorNameedit = document.getElementById("authorNameedit").value;
+
+        const updatedAuthor = {
+            TenTg: authorNameedit
+        };
+
+        fetch(`/admin/authors/edit/${authorId}`, {
+            method: "PUT",
+            headers: {
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify(updatedAuthor)
+        })
+            .then(response => response.json())
+            .then(data => {
+                if (data.success) {
+                    Swal.fire(
+                        'Cập nhật thành công!',
+                        'Tên tác giả đã được thay đổi.',
+                        'success'
+                    ).then(() => {
+                        // Đóng modal sau khi cập nhật thành công
+                        $('#editAuthorModal').modal('hide');
+                        // Cập nhật lại danh sách tác giả hoặc làm mới trang
+                        location.reload();
+                    });
+                } else {
+                    Swal.fire(
+                        'Lỗi!',
+                        data.message || 'Không thể sửa tác giả. Vui lòng thử lại.',
+                        'error'
+                    );
+                }
+            })
+            .catch(error => {
+                Swal.fire(
+                    'Lỗi!',
+                    'Đã xảy ra lỗi. Vui lòng thử lại.',
+                    'error'
+                );
+                console.error("Error:", error);
+            });
+    });
+
+
+
+</script>

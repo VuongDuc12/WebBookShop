@@ -210,7 +210,52 @@ namespace NewAppBookShop.Areas.Admin.Controllers
 
             return Json(new { success = true, message = "Cập nhật sách thành công!" });
         }
+
+
+        [Route("admin/book/search")]
+
+        public IActionResult Search()
+        {
+            var result = new List<PublisherBookCount>();
+            string _connectionString = "Server=HOANGLANNN\\SQLEXPRESS;Database=NewAppBookShop;Trusted_Connection=True;MultipleActiveResultSets=true;Encrypt=True;TrustServerCertificate=True";
+            try
+            {
+                using (var connection = new SqlConnection(_connectionString))
+                {
+                    connection.Open();
+
+                    // Tạo câu lệnh SQL để gọi hàm
+                    using (var command = new SqlCommand("SELECT * FROM fn_SoLuongDauSachTatCaNXB()", connection))
+                    {
+                        using (var reader = command.ExecuteReader())
+                        {
+                            while (reader.Read())
+                            {
+                                var publisherBookCount = new PublisherBookCount
+                                {
+                                    MaNXB = reader.GetInt64(reader.GetOrdinal("MaNXB")),
+                                    TenNXB = reader.GetString(reader.GetOrdinal("TenNXB")),
+                                    SoLuongDauSach = reader.GetInt32(reader.GetOrdinal("SoLuongDauSach"))
+                                };
+                                result.Add(publisherBookCount);
+                            }
+                        }
+                    }
+                }
+
+                // Truyền dữ liệu vào ViewBag
+                ViewBag.PublisherBookCounts = result;
+                return View();
+            }
+            catch (Exception ex)
+            {
+                ViewBag.ErrorMessage = "Đã xảy ra lỗi khi truy vấn dữ liệu.";
+                return View();
+            }
+        }
     }
+
+   
 
 
 

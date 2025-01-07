@@ -113,6 +113,10 @@
       "PackagePath": "staticwebassets\\images\\account-bg.jpg"
     },
     {
+      "Id": "C:\\Users\\hoang\\OneDrive\\Máy tính\\WebBookShop\\wwwroot\\images\\defaultBook.webp",
+      "PackagePath": "staticwebassets\\images\\defaultBook.webp"
+    },
+    {
       "Id": "C:\\Users\\hoang\\OneDrive\\Máy tính\\WebBookShop\\wwwroot\\img\\1729704312467.webp",
       "PackagePath": "staticwebassets\\img\\1729704312467.webp"
     },

@@ -1,0 +1,293 @@
+﻿@model List<NewAppBookShop.Models.NhaXuatBan>
+
+@{
+    ViewData["Title"] = "Quản lý Nhà xuất bản";
+    Layout = "~/Areas/Admin/Views/Shared/_LayoutAdmin.cshtml";
+}
+
+
+<div class="page-inner">
+    <div class="page-header d-flex flex-row justify-content-between">
+        <div class="d-flex flex-row">
+            <ul class="breadcrumbs mb-3">
+                <li class="nav-home">
+                    <a href="#">
+                        <i class="icon-home"></i>
+                    </a>
+                </li>
+                <li class="separator">
+                    <i class="icon-arrow-right"></i>
+                </li>
+                <li class="nav-item">
+                    <a href="#">Tài nguyên Sách</a>
+                </li>
+                <li class="separator">
+                    <i class="icon-arrow-right"></i>
+                </li>
+                <li class="nav-item">
+                    <a href="#">Nhà xuất bản</a>
+                </li>
+                <li class="separator">
+                    <i class="icon-arrow-right"></i>
+                </li>
+                <li class="nav-item">
+                    <a href="#">Danh sách</a>
+                </li>
+            </ul>
+        </div>
+        <div>
+            <!-- Button mở Modal Thêm -->
+            <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#addPublisherModal">
+                Thêm Nhà Xuất Bản
+            </button>
+        </div>
+
+
+    </div>
+    <div class="row">
+        <div class="card">
+            <div class="card-header">
+                <div class="card-title">Danh sách Nhà xuất bản</div>
+            </div>
+            <div class="card-body">
+                <table class="table table-striped mt-3">
+                    <thead>
+                        <tr>
+                            <th>Mã nhà xuất bản</th>
+                            <th>Tên nhà xuất bản</th>
+                            <th>Số điện thoại</th>
+                            <th>Địa chỉ</th>
+
+                            <th>Hành động</th>
+
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var publishs in Model)
+                        {
+                            <tr>
+                                <td>@publishs.MaNxb</td>
+                                <td>@publishs.TenNxb</td>
+                                <td>@publishs.SoDienThoai</td>
+                                <td>@publishs.DiaChi</td>
+
+
+                                <td>
+                                    <div class="dropdown">
+                                        <button class="btn btn-default dropdown-toggle " type="button" id="dropdownMenuButton" data-bs-toggle="dropdown" aria-expanded="false">
+                                            <i class="fa-solid fa-ellipsis-vertical"></i>
+                                        </button>
+                                        <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                                            <li class="bg-info rounded">
+                                                <button class="btn btn-info btn-sm my-1 rounded"
+                                                        onclick="openEditPublisherModal('@publishs.MaNxb', '@publishs.TenNxb', '@publishs.SoDienThoai', '@publishs.DiaChi')">
+                                                    Sửa
+                                                </button>
+
+
+                                            </li>
+
+                                        </ul>
+                                    </div>
+                                </td>
+
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Modal -->
+<div class="modal fade" id="addPublisherModal" tabindex="-1" aria-labelledby="addPublisherModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="addPublisherModalLabel">Thêm Nhà Xuất Bản</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <form id="addPublisherForm">
+                    <div class="mb-3">
+                        <label for="publisherName" class="form-label">Tên Nhà Xuất Bản</label>
+                        <input type="text" class="form-control" id="publisherName" name="TenNxb" required />
+                    </div>
+                    <div class="mb-3">
+                        <label for="publisherPhone" class="form-label">Số Điện Thoại</label>
+                        <input type="text" class="form-control" id="publisherPhone" name="SoDienThoai" />
+                    </div>
+                    <div class="mb-3">
+                        <label for="publisherAddress" class="form-label">Địa Chỉ</label>
+                        <input type="text" class="form-control" id="publisherAddress" name="DiaChi" />
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Hủy</button>
+                <button type="button" class="btn btn-primary" id="savePublisherBtn">Lưu</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<!-- Modal Sửa Nhà Xuất Bản -->
+<!-- Modal Sửa Nhà Xuất Bản -->
+<div class="modal fade" id="editPublisherModal" tabindex="-1" aria-labelledby="editPublisherModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="editPublisherModalLabel">Sửa Nhà Xuất Bản</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <form id="editPublisherForm">
+                    <div class="mb-3">
+                        <label for="editPublisherName" class="form-label">Tên Nhà Xuất Bản</label>
+                        <input type="text" class="form-control" id="editPublisherName" name="TenNxb" required />
+                    </div>
+                    <div class="mb-3">
+                        <label for="editPublisherPhone" class="form-label">Số Điện Thoại</label>
+                        <input type="text" class="form-control" id="editPublisherPhone" name="SoDienThoai" />
+                    </div>
+                    <div class="mb-3">
+                        <label for="editPublisherAddress" class="form-label">Địa Chỉ</label>
+                        <input type="text" class="form-control" id="editPublisherAddress" name="DiaChi" />
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Hủy</button>
+                <button type="button" class="btn btn-primary" id="saveEditedPublisherBtn">Lưu</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+
+<script>
+    // Xử lý sự kiện gửi form thêm nhà xuất bản
+        document.getElementById("savePublisherBtn").addEventListener("click", function () {
+        const form = document.getElementById("addPublisherForm");
+        const formData = new FormData(form);
+
+        const data = {
+            TenNxb: formData.get("TenNxb"),
+        SoDienThoai: formData.get("SoDienThoai"),
+        DiaChi: formData.get("DiaChi"),
+        };
+
+        fetch("/admin/publishs/add", {
+            method: "POST",
+        headers: {
+            "Content-Type": "application/json",
+          },
+        body: JSON.stringify(data),
+        })
+          .then((response) => response.json())
+          .then((result) => {
+            if (result.success) {
+            Swal.fire({
+                title: "Thành công!",
+                text: "Thêm nhà xuất bản thành công!",
+                icon: "success",
+                confirmButtonText: "OK",
+            }).then(() => {
+                // Đóng modal và refresh danh sách
+                const modal = bootstrap.Modal.getInstance(document.getElementById("addPublisherModal"));
+                modal.hide();
+                location.reload();
+            });
+            } else {
+            Swal.fire({
+                title: "Lỗi!",
+                text: result.message || "Không thể thêm nhà xuất bản.",
+                icon: "error",
+                confirmButtonText: "OK",
+            });
+        console.error(result.errors || result.details);
+            }
+          })
+          .catch((error) => {
+            console.error("Đã xảy ra lỗi:", error);
+        Swal.fire({
+            title: "Lỗi!",
+        text: "Đã xảy ra lỗi khi thêm nhà xuất bản.",
+        icon: "error",
+        confirmButtonText: "OK",
+            });
+          });
+      });
+
+
+    // Mở modal sửa nhà xuất bản và điền thông tin
+    function openEditPublisherModal(maNxb, tenNxb, soDienThoai, diaChi) {
+        // Điền dữ liệu vào các trường trong modal
+        document.getElementById("editPublisherName").value = tenNxb;
+        document.getElementById("editPublisherPhone").value = soDienThoai;
+        document.getElementById("editPublisherAddress").value = diaChi;
+
+        // Lưu lại MaNxb vào biến toàn cục để sử dụng khi gửi yêu cầu PUT
+        currentPublisherId = maNxb;
+
+        // Mở modal
+        const modal = new bootstrap.Modal(document.getElementById("editPublisherModal"));
+        modal.show();
+    }
+
+    document.getElementById("saveEditedPublisherBtn").addEventListener("click", function () {
+        const form = document.getElementById("editPublisherForm");
+        const formData = new FormData(form);
+
+        const data = {
+            TenNxb: formData.get("TenNxb"),
+            SoDienThoai: formData.get("SoDienThoai"),
+            DiaChi: formData.get("DiaChi"),
+        };
+
+        // Gửi yêu cầu PUT để cập nhật nhà xuất bản
+        fetch(`/admin/publishs/edit/${currentPublisherId}`, {
+            method: "PUT",
+            headers: {
+                "Content-Type": "application/json",
+            },
+            body: JSON.stringify(data),
+        })
+            .then((response) => response.json())
+            .then((result) => {
+                if (result.success) {
+                    Swal.fire({
+                        title: "Thành công!",
+                        text: "Cập nhật nhà xuất bản thành công!",
+                        icon: "success",
+                        confirmButtonText: "OK",
+                    }).then(() => {
+                        // Đóng modal và reload danh sách
+                        const modal = bootstrap.Modal.getInstance(document.getElementById("editPublisherModal"));
+                        modal.hide();
+                        location.reload();
+                    });
+                } else {
+                    Swal.fire({
+                        title: "Lỗi!",
+                        text: result.message || "Không thể cập nhật nhà xuất bản.",
+                        icon: "error",
+                        confirmButtonText: "OK",
+                    });
+                }
+            })
+            .catch((error) => {
+                console.error("Đã xảy ra lỗi:", error);
+                Swal.fire({
+                    title: "Lỗi!",
+                    text: "Đã xảy ra lỗi khi cập nhật nhà xuất bản.",
+                    icon: "error",
+                    confirmButtonText: "OK",
+                });
+            });
+    });
+</script>

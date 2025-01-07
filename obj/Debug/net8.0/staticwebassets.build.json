@@ -1,6 +1,6 @@
 {
   "Version": 1,
-  "Hash": "9pbQcP1FT3ODHpqTRzzOadJgJ/muPU1z6achsLJ9vq8=",
+  "Hash": "/tA6BnLmFPCXQDsK/k0qGeJtCjbRf2iq+Fe+mbjnQXY=",
   "Source": "NewAppBookShop",
   "BasePath": "_content/NewAppBookShop",
   "Mode": "Default",
@@ -1706,6 +1706,25 @@
       "CopyToOutputDirectory": "Never",
       "CopyToPublishDirectory": "PreserveNewest",
       "OriginalItemSpec": "wwwroot\\images\\account-bg.jpg"
+    },
+    {
+      "Identity": "C:\\Users\\hoang\\OneDrive\\Máy tính\\WebBookShop\\wwwroot\\images\\defaultBook.webp",
+      "SourceId": "NewAppBookShop",
+      "SourceType": "Discovered",
+      "ContentRoot": "C:\\Users\\hoang\\OneDrive\\Máy tính\\WebBookShop\\wwwroot\\",
+      "BasePath": "_content/NewAppBookShop",
+      "RelativePath": "images/defaultBook.webp",
+      "AssetKind": "All",
+      "AssetMode": "All",
+      "AssetRole": "Primary",
+      "AssetMergeBehavior": "PreferTarget",
+      "AssetMergeSource": "",
+      "RelatedAsset": "",
+      "AssetTraitName": "",
+      "AssetTraitValue": "",
+      "CopyToOutputDirectory": "Never",
+      "CopyToPublishDirectory": "PreserveNewest",
+      "OriginalItemSpec": "wwwroot\\images\\defaultBook.webp"
     },
     {
       "Identity": "C:\\Users\\hoang\\OneDrive\\Máy tính\\WebBookShop\\wwwroot\\img\\1729704312467.webp",
