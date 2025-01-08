@@ -237,8 +237,6 @@ AS
 BEGIN
     BEGIN TRY
         BEGIN TRANSACTION;
-
-        -- Kiểm tra xem giỏ hàng chưa thanh toán đã tồn tại chưa
         IF EXISTS (
             SELECT 1 FROM GioHang 
             WHERE UserId = @UserId AND TrangThai = N'Đang đặt hàng'
@@ -395,7 +393,7 @@ BEGIN
 
     -- Tính tổng doanh thu từ cột 'TongTien' trong bảng HoaDonMua
     SELECT @TongDoanhThu = SUM(TongTien)
-    FROM HoaDonMua where TrangThai = 'Thành Công';
+    FROM HoaDonMua where TrangThai = N'Thành Công';
 
     -- Trả về giá trị 0 nếu không có doanh thu
     RETURN ISNULL(@TongDoanhThu, 0);
@@ -420,25 +418,7 @@ ON
 
 
 
-CREATE VIEW v_TongTienTheoKhachHang
-AS
-SELECT 
-    MaKh,
-    COUNT(SoHdmua) AS SoHoaDon,
-    SUM(TongTien) AS TongTien
-FROM HoaDonMua
-GROUP BY MaKh;
 
-
-CREATE VIEW v_HoaDonChuaThanhToan
-AS
-SELECT 
-    SoHdmua,
-    NgayMua,
-    MaKh,
-    TongTien
-FROM HoaDonMua
-WHERE TrangThai = 'ChuaThanhToan';
 
 CREATE TRIGGER trg_CapNhatTongChiTieuSauThanhToan
 ON HoaDonMua
@@ -471,6 +451,40 @@ BEGIN
     FROM TonKho T
     JOIN INSERTED I ON T.MaSach = I.MaSach;
 
+END;
+CREATE TRIGGER trg_CapNhatTonKhoSauHuyDon
+ON HoaDonMua
+AFTER UPDATE
+AS
+BEGIN
+    DECLARE @MaSP INT, @SoLuong INT;
+
+    -- Kiểm tra trạng thái đơn hàng trong bảng INSERTED để xem có bị hủy không
+    IF EXISTS (SELECT 1 FROM INSERTED WHERE TrangThai = N'Thất Bại')
+    BEGIN
+       
+        DECLARE cur CURSOR FOR
+        SELECT MaSach, SoLuong
+        FROM ChiTietHoaDonMua
+        WHERE SoHdmua IN (SELECT SoHdmua FROM INSERTED WHERE TrangThai = N'Thất Bại');
+        
+        OPEN cur;
+        
+        FETCH NEXT FROM cur INTO @MaSP, @SoLuong;
+        
+     
+        WHILE @@FETCH_STATUS = 0
+        BEGIN
+            UPDATE TonKho
+            SET SoLuongTon = SoLuongTon + @SoLuong
+            WHERE MaSach = @MaSP;
+            
+            FETCH NEXT FROM cur INTO @MaSP, @SoLuong;
+        END
+        
+        CLOSE cur;
+        DEALLOCATE cur;
+    END
 END;
 
 
