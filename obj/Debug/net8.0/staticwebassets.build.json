@@ -1,6 +1,6 @@
 {
   "Version": 1,
-  "Hash": "v8lU+DykaVP/7nucahIxpGnm+zGuhdIPaKP+s1VucU0=",
+  "Hash": "44bTjGwGk1ECBj3MVH7ts7oTihCBODtbQG2MVJSbCJk=",
   "Source": "NewAppBookShop",
   "BasePath": "_content/NewAppBookShop",
   "Mode": "Default",
@@ -1706,6 +1706,25 @@
       "CopyToOutputDirectory": "Never",
       "CopyToPublishDirectory": "PreserveNewest",
       "OriginalItemSpec": "wwwroot\\images\\account-bg.jpg"
+    },
+    {
+      "Identity": "D:\\CodeProject\\c#\\NewAppBookShop\\NewAppBookShop\\wwwroot\\images\\defaultBook.webp",
+      "SourceId": "NewAppBookShop",
+      "SourceType": "Discovered",
+      "ContentRoot": "D:\\CodeProject\\c#\\NewAppBookShop\\NewAppBookShop\\wwwroot\\",
+      "BasePath": "_content/NewAppBookShop",
+      "RelativePath": "images/defaultBook.webp",
+      "AssetKind": "All",
+      "AssetMode": "All",
+      "AssetRole": "Primary",
+      "AssetMergeBehavior": "PreferTarget",
+      "AssetMergeSource": "",
+      "RelatedAsset": "",
+      "AssetTraitName": "",
+      "AssetTraitValue": "",
+      "CopyToOutputDirectory": "Never",
+      "CopyToPublishDirectory": "PreserveNewest",
+      "OriginalItemSpec": "wwwroot\\images\\defaultBook.webp"
     },
     {
       "Identity": "D:\\CodeProject\\c#\\NewAppBookShop\\NewAppBookShop\\wwwroot\\img\\1729704312467.webp",

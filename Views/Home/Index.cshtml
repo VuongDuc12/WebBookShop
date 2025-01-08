@@ -1,13 +1,46 @@
 ﻿@using NewAppBookShop.ViewModels;
 @model LoginViewModel
 
+
 @{
     ViewData["Title"] = "Home Page";
      Layout = "../Shared/_Layout.cshtml";
+
+	var books = ViewBag.Books as List<NewAppBookShop.ViewModels.BookViewModel>;
+	int totalPages = ViewBag.TotalPages;
+	int currentPage = ViewBag.CurrentPage;
+	var topbooks = ViewBag.topbooks as List<NewAppBookShop.ViewModels.BookViewModel>;
 }
 
-<!-- Slider -->
+<style>
 
+</style>
+	@if (TempData["Success"] != null)
+{
+    <div class="toast position-fixed bottom-0 start-0 m-3" style="z-index: 9999;" role="alert" aria-live="assertive" aria-atomic="true">
+        <div class="toast-header">
+            <strong class="me-auto">Thông báo</strong>
+            <button type="button" class="btn-close" data-bs-dismiss="toast" aria-label="Close"></button>
+        </div>
+        <div class="toast-body">
+            @TempData["Success"]
+        </div>
+    </div>
+}
+
+@if (TempData["Error"] != null)
+{
+    <div class="toast position-fixed bottom-0 start-0 m-3" style="z-index: 9999;" role="alert" aria-live="assertive" aria-atomic="true">
+        <div class="toast-header">
+            <strong class="me-auto">Lỗi</strong>
+            <button type="button" class="btn-close" data-bs-dismiss="toast" aria-label="Close"></button>
+        </div>
+        <div class="toast-body">
+            @TempData["Error"]
+        </div>
+    </div>
+}
+<!-- Slider -->
 	<div class="main_slider" style="background-image:url('@Url.Content("~/img/banner4.png")')">
 
 
@@ -15,9 +48,11 @@
 				<div class="row align-items-center fill_height">
 					<div class="col">
 						<div class="main_slider_content">
-							<h6>Spring / Summer Collection 2017</h6>
-							<h1>Get up to 30% Off New Arrivals</h1>
-							<div class="red_button shop_now_button"><a href="~/#">shop now</a></div>
+							<h6>Bộ sưu tập sách mùa xuân 2025</h6>
+					<h1>
+						Nhận tới 30% giảm giá hàng mới
+					</h1>
+							<div class="red_button shop_now_button"><a href="~/#">Mua ngay</a></div>
 						</div>
 					</div>
    
@@ -27,36 +62,120 @@
 
 		<!-- Banner -->
 
-		<div class="banner">
-			<div class="container">
-				<div class="row">
-					<div class="col-md-4">
-						<div class="banner_item align-items-center" style="background-image:url(images/banner_1.jpg)">
-							<div class="banner_category">
-								<a href="~/categories.html">women's</a>
-							</div>
-						</div>
+		
+
+<div class=" my-3 mx-5" style="padding:0 10%">
+	<h2 class="text-center">Top 5 sách bán chạy nhất</h2>
+
+	<div class="row d-flex flex-nowrap overflow-auto">
+		@foreach (var book in topbooks)
+		{
+			<div class="" style="flex: 0 0 auto; width:20%">
+				<div class="card" style="height:100%;">
+					<img src="@book.Anh" class="card-img-top" alt="@book.TenSach" style="height: 300px; object-fit: cover;">
+					<div class="card-body">
+						<h5 class="card-title">@book.TenSach</h5>
+						<p class="card-text"><strong>Tác giả:</strong> @book.TacGia</p>
+						<p class="card-text"><strong>Nhà xuất bản:</strong> @book.NhaXuatBan</p>
+						<p class="card-text"><strong>Thể loại:</strong> @book.TheLoai</p>
+						<p class="card-text"><strong>Giá bán:</strong> @book.GiaBan đ</p>
+						<p class="card-text"><strong>Đã bán:</strong> @book.SoLuongBan</p>
+						<p class="card-text"><strong>Số lượng còn lại:</strong> @book.SoLuong</p>
 					</div>
-					<div class="col-md-4">
-						<div class="banner_item align-items-center" style="background-image:url(images/banner_2.jpg)">
-							<div class="banner_category">
-								<a href="~/categories.html">accessories's</a>
-							</div>
-						</div>
-					</div>
-					<div class="col-md-4">
-						<div class="banner_item align-items-center" style="background-image:url(images/banner_3.jpg)">
-							<div class="banner_category">
-								<a href="~/categories.html">men's</a>
-							</div>
-						</div>
+					<div class="text-end p-2">
+
+						<button src="cart/add" class="btn-primary btn-sm bg-white" style="cursor:pointer;color:black">
+							<i class="fa-solid fa-plus" aria-hidden="true"></i>
+							Thêm vào giỏ hàng
+						</button>
 					</div>
 				</div>
 			</div>
-		</div>
+		}
+	</div>
+</div>
+
 
 		<!-- New Arrivals -->
+<div class="container my-5">
+	<h2 class="text-center">Thư viện sách</h2>
 
+	<div class="row" style="">
+		@foreach (var book in books)
+		{
+			<div class="col-md-3 mb-4">
+				<div class="card" style="height:100%">
+					<img src="@book.Anh" class="card-img-top" alt="@book.TenSach" style="height: 300px; object-fit: cover;">
+					<div class="card-body">
+						<h5 class="card-title">@book.TenSach</h5>
+						<p class="card-text"><strong>Tác giả:</strong> @book.TacGia</p>
+						<p class="card-text"><strong>Nhà xuất bản:</strong> @book.NhaXuatBan</p>
+						<p class="card-text"><strong>Thể loại:</strong> @book.TheLoai</p>
+						<p class="card-text"><strong>Giá bán:</strong> @book.GiaBan đ</p>
+						<p class="card-text"><strong>Số lượng còn lại:</strong> @book.SoLuong</p>
+					</div>
+					<div class="text-end p-2">
+            <!-- Form để gửi dữ liệu lên Controller -->
+						@using (Html.BeginForm("AddToCart", "Cart", FormMethod.Post))
+						{
+							<input type="hidden" name="BookId" value="@book.MaSach" />
+							<div class="d-flex align-items-center">
+                    <!-- Trường nhập số lượng -->
+                    <input id="quantity_@book.MaSach" name="Quantity" type="number" 
+                           class="form-control form-control-sm me-2" 
+                           value="1" min="1" max="@book.SoLuong" 
+                           style="width: 60px;" />
+                    <!-- Nút thêm vào giỏ hàng -->
+                    <button type="submit" class="btn btn-primary btn-sm">
+                        <i class="fa-solid fa-plus" aria-hidden="true"></i>
+                        Thêm giỏ hàng
+                    </button>
+                </div>
+						}
+					</div>
+				</div>
+			</div>
+		}
+	</div>
+
+	<!-- Pagination -->
+	<div class="d-flex justify-content-center mt-4">
+		<ul class="pagination">
+			@if (currentPage > 1)
+			{
+				<li class="page-item">
+					<a class="page-link" href="@Url.Action("Index", new { page = currentPage - 1 })">Trang trước</a>
+				</li>
+			}
+			else
+			{
+				<li class="page-item disabled">
+					<a class="page-link">Trang trước</a>
+				</li>
+			}
+
+			@for (var i = 1; i <= totalPages; i++)
+			{
+				<li class="page-item @(i == currentPage ? "active" : "")">
+					<a class="page-link" href="@Url.Action("Index", new { page = i })">@i</a>
+				</li>
+			}
+
+			@if (currentPage < totalPages)
+			{
+				<li class="page-item">
+					<a class="page-link" href="@Url.Action("Index", new { page = currentPage + 1 })">Trang sau</a>
+				</li>
+			}
+			else
+			{
+				<li class="page-item disabled">
+					<a class="page-link">Trang sau</a>
+				</li>
+			}
+		</ul>
+	</div>
+</div>
 		<div class="new_arrivals">
 			<div class="container">
 				<div class="row">
@@ -612,3 +731,17 @@
 			</div>
 		</div>
 
+
+@section Scripts
+{
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            var toasts = document.querySelectorAll('.toast');
+            toasts.forEach(function(toast) {
+                var bsToast = new bootstrap.Toast(toast);
+                bsToast.show();
+            });
+        });
+    </script>
+}
