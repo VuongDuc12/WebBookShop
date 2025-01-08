@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.Data.SqlClient;
+using Microsoft.EntityFrameworkCore;
 using NewAppBookShop.Data;
 using NewAppBookShop.Models;
 using Newtonsoft.Json;
@@ -20,6 +21,7 @@ namespace NewAppBookShop.Areas.Admin.Controllers
 
         public IActionResult Index()
         {
+            
             return View();
         }
 
