@@ -17,7 +17,7 @@ namespace NewAppBookShop.Areas.Admin.Controllers
             _context = context;
         }
 
-                [Route("admin/employee")]
+
 
         public async Task<IActionResult> Index()
         {

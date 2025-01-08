@@ -46,6 +46,7 @@
     <PackageReference Include="Microsoft.Identity.Web.DownstreamApi" Version="2.15.2" />
     <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="8.0.7" />
     <PackageReference Include="MimeKit" Version="4.9.0" />
+    <PackageReference Include="Newtonsoft.Json" Version="13.0.3" />
   </ItemGroup>
 
   <ItemGroup>

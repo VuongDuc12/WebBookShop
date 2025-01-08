@@ -1,0 +1,48 @@
+@model IEnumerable<NewAppBookShop.Models.KhachHang>
+
+@{
+    ViewData["Title"] = "Customer Management";
+      Layout = "~/Areas/Admin/Views/Shared/_LayoutAdmin.cshtml";
+}
+
+
+<div class="container py-4">
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <h1 class="h3 text-primary">Customer Management</h1>
+        <a asp-action="Create" class="btn btn-primary">Add New Customer</a>
+    </div>
+
+    <table class="table table-bordered">
+        <thead class="table-light">
+            <tr>
+                <th>ID</th>
+                <th>Name</th>
+                <th>Email</th>
+                <th>Phone</th>
+                <th>Gender</th>
+                <th>Date of Birth</th>
+                <th>Address</th>
+                <th>Total Expenditure</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var customer in Model)
+            {
+                <tr>
+                    <td>@customer.MaKh</td>
+                    <td>@customer.TenKh</td>
+                    <td>@customer.User.Email</td> <!-- Hiển thị email từ bảng AspNetUsers -->
+                    <td>@customer.SoDienThoai</td>
+                    <td>@customer.GioiTinh</td>
+                    <td>@customer.NgaySinh?.ToString("yyyy-MM-dd")</td>
+                    <td>@customer.DiaChi</td>
+                    <td>@customer.TongChiTieu</td>
+                    <td>
+                        <a class="btn btn-sm btn-outline-primary" asp-action="Edit" asp-route-id="@customer.MaKh">Edit</a>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>
