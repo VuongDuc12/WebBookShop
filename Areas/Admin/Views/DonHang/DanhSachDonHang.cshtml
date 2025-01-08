@@ -1,0 +1,172 @@
+﻿@model List<NewAppBookShop.Models.HoaDonMua>
+@{
+    ViewData["Title"] = "Danh sách đơn hàng";
+    Layout = "~/Areas/Admin/Views/Shared/_LayoutAdmin.cshtml";
+}
+
+<style>
+    .badge-large {
+        font-size: 1.5rem; /* Tăng kích thước chữ */
+        padding: 0.5em 1em; /* Thêm padding để badge lớn hơn */
+    }
+     .badge-custom {
+        font-size: 0.9rem;  /* Tăng kích thước chữ */
+        padding: 0.5em 1em; /* Tăng khoảng cách trong badge */
+    }
+    .btn-sm {
+    padding: 5px;
+}
+
+    .fas {
+        font-size: 14px; /* Điều chỉnh kích thước icon */
+    }
+</style>
+
+<div class="container my-3">
+     <!-- Header -->
+    <div class="d-flex justify-content-between align-items-center mb-3">
+        <h2 class="mb-0">Danh sách đơn hàng</h2>
+        <div>
+            <button class="btn btn-outline-secondary me-2 p-2">Xuất file</button>
+            <button class="btn btn-primary p-2">+ Tạo đơn hàng</button>
+        </div>
+    </div>  
+
+    <!-- Tabs -->
+    <ul class="nav nav-tabs mb-3">
+        <li class="nav-item">
+            <a class="nav-link active" href="#">Tất cả</a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" href="#">Chưa xử lý giao hàng</a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" href="#">Chờ lấy hàng</a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" href="#">Đang giao hàng</a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" href="#">Chưa thanh toán</a>
+        </li>
+    </ul>
+
+    <!-- Search and Filters -->
+    <div class="row mb-3">
+        <div class="col-md-6">
+            <input type="text" class="form-control" placeholder="Tìm kiếm theo mã đơn hàng, vận đơn, SĐT khách hàng">
+        </div>
+        <div class="col-md-2">
+            <select class="form-select p-2">
+                <option selected>Trạng thái giao hàng</option>
+                <option value="1">Đang giao</option>
+                <option value="2">Đã giao</option>
+            </select>
+        </div>
+        <div class="col-md-2">
+            <select class="form-select p-2">
+                <option selected>Ngày tạo</option>
+                <option value="1">Hôm nay</option>
+                <option value="2">Tuần này</option>
+            </select>
+        </div>
+      <div class="col-md-2">
+            <!-- Adjusted button class to make it the same height as other buttons -->
+            <button class="btn btn-outline-primary w-60 p-2" id="saveFilter">Lưu bộ lọc</button>
+        </div>
+    </div>
+
+
+    <!-- Table -->
+    @if (Model != null && Model.Any())
+    {
+        <div class="table-responsive">
+            <table class="table table-bordered align-middle">
+                <thead class="table-light">
+                    <tr>
+                        <th scope="col"><input type="checkbox"></th>
+                        <th scope="col">Mã đơn hàng</th>
+                        <th scope="col">Ngày tạo</th>
+                        <th scope="col">Khách hàng</th>
+                        <th scope="col">Nhân viên hỗ trợ</th>
+                        <th scope="col">Số lượng</th>
+                        <th scope="col">Thành tiền</th>
+                        <th scope="col">Trạng thái xử lý</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var hoaDon in Model)
+                    {
+                        <tr>
+                            <td><input type="checkbox"></td>
+                            <td><a  href="@Url.Action("Details", "DonHang", new { id = hoaDon.SoHdmua })">@hoaDon.SoHdmua</a></td>
+                            <td>@hoaDon.NgayMua.ToString("dd/MM/yyyy HH:mm")</td>
+                            <td>@(hoaDon.MaKhNavigation?.MaKh != null ? hoaDon.MaKhNavigation.TenKh.ToString() : "Không xác định")</td>
+
+                            <td>@(hoaDon.MaNvNavigation?.MaNv != null ? hoaDon.MaNvNavigation.MaNv.ToString() : "Không xác định")</td>
+
+                            <td>@hoaDon.Soluong</td>
+                            <td>@hoaDon.TongTien.ToString("N0")₫</td>
+                             <td>
+                    @if(hoaDon.TrangThai == "Chờ Xử Lý")
+                    {
+                        <span class="badge badge-custom bg-warning">@hoaDon.TrangThai</span>
+                    }
+                    else if(hoaDon.TrangThai == "Đang Xử Lý")
+                    {
+                        <span class="badge badge-custom bg-primary">@hoaDon.TrangThai</span>
+                    }
+                    else if(hoaDon.TrangThai == "Thành Công")
+                    {
+                        <span class="badge badge-custom bg-success">@hoaDon.TrangThai</span>
+                    }
+                    else if(hoaDon.TrangThai == "Thất Bại")
+                    {
+                        <span class="badge badge-custom bg-danger">@hoaDon.TrangThai</span>
+                    }
+                    else if(hoaDon.TrangThai == "Đang Giao Hàng")
+                    {
+                        <span class="badge badge-custom bg-info">@hoaDon.TrangThai</span>
+                    }
+                    else
+                    {
+                        <span class="badge badge-custom bg-secondary">@hoaDon.TrangThai</span>
+                    }
+                </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    }
+    else
+    {
+        <div class="alert alert-info">
+            Không có đơn hàng nào để hiển thị.
+        </div>
+    }
+
+    <!-- Pagination -->
+    <div class="d-flex justify-content-between align-items-center mt-3">
+        <span class="text-muted">Hiển thị từ 1 đến @Model.Count trên tổng số @Model.Count đơn hàng</span>
+        <nav aria-label="Page navigation">
+            <ul class="pagination mb-0">
+                <li class="page-item disabled">
+                    <a class="page-link" href="#" tabindex="-1" aria-disabled="true">Trước</a>
+                </li>
+                <li class="page-item active" aria-current="page">
+                    <a class="page-link" href="#">1</a>
+                </li>
+                <li class="page-item">
+                    <a class="page-link" href="#">2</a>
+                </li>
+                <li class="page-item">
+                    <a class="page-link" href="#">3</a>
+                </li>
+                <li class="page-item">
+                    <a class="page-link" href="#">Tiếp</a>
+                </li>
+            </ul>
+        </nav>
+    </div>
+</div>

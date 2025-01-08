@@ -113,6 +113,10 @@
       "PackagePath": "staticwebassets\\images\\account-bg.jpg"
     },
     {
+      "Id": "D:\\CodeProject\\c#\\NewAppBookShop\\NewAppBookShop\\wwwroot\\images\\defaultBook.webp",
+      "PackagePath": "staticwebassets\\images\\defaultBook.webp"
+    },
+    {
       "Id": "D:\\CodeProject\\c#\\NewAppBookShop\\NewAppBookShop\\wwwroot\\img\\1729704312467.webp",
       "PackagePath": "staticwebassets\\img\\1729704312467.webp"
     },

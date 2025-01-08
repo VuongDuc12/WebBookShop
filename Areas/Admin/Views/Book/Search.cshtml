@@ -1,0 +1,91 @@
+﻿@using NewAppBookShop.Models  <!-- Thay YourProjectNamespace bằng không gian tên thực tế của bạn -->
+@{
+    ViewData["Title"] = "Quản lý sách";
+    Layout = "~/Areas/Admin/Views/Shared/_LayoutAdmin.cshtml";
+
+    // Lấy dữ liệu từ ViewBag
+    var publisherBookCounts = ViewBag.PublisherBookCounts as List<PublisherBookCount>;
+    var errorMessage = ViewBag.ErrorMessage as string;
+}
+
+<div class="page-inner">
+    <div class="page-header d-flex flex-row justify-content-between">
+        <div class="d-flex flex-row">
+            <ul class="breadcrumbs mb-3">
+                <li class="nav-home">
+                    <a href="#">
+                        <i class="icon-home"></i>
+                    </a>
+                </li>
+                <li class="separator">
+                    <i class="icon-arrow-right"></i>
+                </li>
+                <li class="nav-item">
+                    <a href="#">Tài nguyên Sách</a>
+                </li>
+                <li class="separator">
+                    <i class="icon-arrow-right"></i>
+                </li>
+                <li class="nav-item">
+                    <a href="#">Tác giả</a>
+                </li>
+                <li class="separator">
+                    <i class="icon-arrow-right"></i>
+                </li>
+                <li class="nav-item">
+                    <a href="#">Danh sách</a>
+                </li>
+            </ul>
+        </div>
+        <div>
+            
+        </div>
+
+
+    </div>
+    <div class="row">
+        <div class="card">
+            <div class="card-header">
+                <div class="card-title">Danh sách Đầu sách trên từng NXB</div>
+            </div>
+            <div class="card-body">
+
+                @if (!string.IsNullOrEmpty(errorMessage))
+                {
+                    <div class="alert alert-danger">
+                        @errorMessage
+                    </div>
+                }
+
+                @if (publisherBookCounts != null && publisherBookCounts.Count > 0)
+                {
+                    <table class="table">
+                        <thead>
+                            <tr>
+                                <th>MaNXB</th>
+                                <th>TenNXB</th>
+                                <th>Số lượng đầu sách</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach (var item in publisherBookCounts)
+                            {
+                                <tr>
+                                    <td>@item.MaNXB</td>
+                                    <td>@item.TenNXB</td>
+                                    <td>@item.SoLuongDauSach</td>
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+                }
+                else
+                {
+                    <p>Không có dữ liệu nhà xuất bản.</p>
+                }
+
+
+            </div>
+        </div>
+    </div>
+</div>

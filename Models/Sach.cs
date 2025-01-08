@@ -19,11 +19,12 @@ public partial class Sach
 
     public bool TrangThai { get; set; }
 
+    public string? Anh { get; set; }
+
     public virtual ICollection<ChiTietGioHang> ChiTietGioHangs { get; set; } = new List<ChiTietGioHang>();
 
     public virtual ICollection<ChiTietHoaDonNhap> ChiTietHoaDonNhaps { get; set; } = new List<ChiTietHoaDonNhap>();
 
-    public virtual ICollection<ChiTietHoaDonMua> ChiTietHoaDonMuas { get; set; } = new List<ChiTietHoaDonMua>();
     public virtual NhaXuatBan MaNxbNavigation { get; set; } = null!;
 
     public virtual TacGium MaTacGiaNavigation { get; set; } = null!;
