@@ -51,6 +51,7 @@
           "Microsoft.Identity.Web.UI": "2.15.2",
           "Microsoft.VisualStudio.Web.CodeGeneration.Design": "8.0.7",
           "MimeKit": "4.9.0",
+          "Newtonsoft.Json": "13.0.3",
           "Microsoft.AspNetCore.Antiforgery": "8.0.0.0",
           "Microsoft.AspNetCore.Authentication.Abstractions": "8.0.0.0",
           "Microsoft.AspNetCore.Authentication.BearerToken": "8.0.0.0",

@@ -8875,7 +8875,8 @@
       "Microsoft.Identity.Web.DownstreamApi >= 2.15.2",
       "Microsoft.Identity.Web.UI >= 2.15.2",
       "Microsoft.VisualStudio.Web.CodeGeneration.Design >= 8.0.7",
-      "MimeKit >= 4.9.0"
+      "MimeKit >= 4.9.0",
+      "Newtonsoft.Json >= 13.0.3"
     ]
   },
   "packageFolders": {
@@ -8990,6 +8991,10 @@
           "MimeKit": {
             "target": "Package",
             "version": "[4.9.0, )"
+          },
+          "Newtonsoft.Json": {
+            "target": "Package",
+            "version": "[13.0.3, )"
           }
         },
         "imports": [

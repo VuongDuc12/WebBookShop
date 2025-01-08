@@ -50,6 +50,14 @@ build_metadata.AdditionalFiles.CssScope =
 build_metadata.AdditionalFiles.TargetPath = QXJlYXNcQWRtaW5cVmlld3NcSG9tZVxJbmRleC5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 
 
+[C:/Users/hoang/OneDrive/Máy tính/WebBookShop/Areas/Admin/Views/ImportBill/Create.cshtml]
+build_metadata.AdditionalFiles.TargetPath = QXJlYXNcQWRtaW5cVmlld3NcSW1wb3J0QmlsbFxDcmVhdGUuY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/hoang/OneDrive/Máy tính/WebBookShop/Areas/Admin/Views/ImportBill/Index.cshtml]
+build_metadata.AdditionalFiles.TargetPath = QXJlYXNcQWRtaW5cVmlld3NcSW1wb3J0QmlsbFxJbmRleC5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
 [C:/Users/hoang/OneDrive/Máy tính/WebBookShop/Areas/Admin/Views/Publish/Index.cshtml]
 build_metadata.AdditionalFiles.TargetPath = QXJlYXNcQWRtaW5cVmlld3NcUHVibGlzaFxJbmRleC5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 
