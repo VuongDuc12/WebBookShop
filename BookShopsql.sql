@@ -228,7 +228,7 @@ INSERT INTO ChiTietHoaDonNhap (SoHdnhap, MaSach, SoLuong, GiaNhap) VALUES
 (1, 1, 10, 40000);
 
 
-
+Drop proc sp_LayIdGioHang
 
 CREATE PROCEDURE sp_LayIdGioHang --Nếu chưa có giỏ hàng đang tồn tại thì tạo mới giỏ hàng r kaays ra idgiohang
     @UserId NVARCHAR(255),
@@ -241,19 +241,19 @@ BEGIN
         -- Kiểm tra xem giỏ hàng chưa thanh toán đã tồn tại chưa
         IF EXISTS (
             SELECT 1 FROM GioHang 
-            WHERE UserId = @UserId AND TrangThai = 'DangDatHang'
+            WHERE UserId = @UserId AND TrangThai = N'Đang đặt hàng'
         )
         BEGIN
             -- Lấy giỏ hàng hiện có
             SELECT @GioHangId = Id 
             FROM GioHang 
-            WHERE UserId = @UserId AND TrangThai = 'DangDatHang';
+            WHERE UserId = @UserId AND TrangThai = N'Đang đặt hàng';
         END
         ELSE
         BEGIN
             -- Tạo giỏ hàng mới
             INSERT INTO GioHang (UserId, NgayTao, TrangThai)
-            VALUES (@UserId, GETDATE(), 'DangDatHang');
+            VALUES (@UserId, GETDATE(), N'Đang đặt hàng');
 
             -- Lấy ID của giỏ hàng vừa tạo
             SET @GioHangId = SCOPE_IDENTITY();
@@ -266,16 +266,20 @@ BEGIN
         THROW;
     END CATCH
 END;
+drop proc sp_ThemSanPhamVaoGioHang
 CREATE PROCEDURE sp_ThemSanPhamVaoGioHang --thêm mới sản phẩm vào giỏ hàng được lưu vào bảng chitietgiohang
     @GioHangId BIGINT,
     @MaSach BIGINT,
-    @SoLuong INT,
-    @Gia DECIMAL(18, 2)
+    @SoLuong INT
+    
 AS
 BEGIN
     BEGIN TRY
         BEGIN TRANSACTION;
-	
+		Declare @Gia decimal(18, 2)
+
+		SELECT @Gia = GiaBan FROM Sach 
+            WHERE MaSach = @MaSach
         -- Kiểm tra xem sản phẩm đã có trong giỏ hàng chưa
         IF EXISTS (
             SELECT 1 FROM ChiTietGioHang 
@@ -308,91 +312,8 @@ BEGIN
         THROW;
     END CATCH
 END;
-CREATE PROCEDURE sp_SuaSoLuongSanPhamTrongGioHang
-    @GioHangId BIGINT,
-    @MaSach BIGINT,
-    @SoLuongMoi INT
-AS
-BEGIN
-    BEGIN TRY
-        BEGIN TRANSACTION;
 
-        -- Lấy số lượng cũ và giá tiền
-        DECLARE @SoLuongCu INT, @Gia DECIMAL(18, 2);
-        SELECT @SoLuongCu = SoLuong, @Gia = Gia
-        FROM ChiTietGioHang
-        WHERE GioHangId = @GioHangId AND MaSach = @MaSach;
-
-        -- Tính chênh lệch số lượng
-        DECLARE @ChenhLechSoLuong INT = @SoLuongMoi - @SoLuongCu;
-
-        -- Cập nhật số lượng
-        UPDATE ChiTietGioHang
-        SET SoLuong = @SoLuongMoi
-        WHERE GioHangId = @GioHangId AND MaSach = @MaSach;
-
-        -- Lấy tongthanhtien cũ thành tiền của giỏ hàng
-        DECLARE @TongThanhTien DECIMAL(18, 2);
-        SELECT @TongThanhTien = SUM(SoLuong * Gia) 
-        FROM ChiTietGioHang 
-        WHERE GioHangId = @GioHangId;
-
-      
-
-        -- Cập nhật giỏ hàng với tổng tiền đã áp dụng giảm giá
-        UPDATE GioHang
-        SET TongSoLuong = TongSoLuong + @ChenhLechSoLuong,
-            TongThanhTien = @TongThanhTien 
-        WHERE Id = @GioHangId;
-
-        COMMIT TRANSACTION;
-    END TRY
-    BEGIN CATCH
-        ROLLBACK TRANSACTION;
-        THROW;
-    END CATCH
-END;
-
-
-CREATE PROCEDURE sp_XoaSanPhamKhoiGioHang
-    @GioHangId BIGINT,
-    @MaSach BIGINT
-AS
-BEGIN
-    BEGIN TRY
-        BEGIN TRANSACTION;
-
-        -- Lấy thông tin sản phẩm trước khi xóa
-        DECLARE @SoLuong INT, @Gia DECIMAL(18, 2);
-        SELECT @SoLuong = SoLuong, @Gia = Gia
-        FROM ChiTietGioHang
-        WHERE GioHangId = @GioHangId AND MaSach = @MaSach;
-
-        -- Xóa sản phẩm khỏi chi tiết giỏ hàng
-        DELETE FROM ChiTietGioHang
-        WHERE GioHangId = @GioHangId AND MaSach = @MaSach;
-
-        -- Cập nhật tổng số lượng và thành tiền của giỏ hàng
-        DECLARE @TongThanhTien DECIMAL(18, 2);
-        SELECT @TongThanhTien = SUM(SoLuong * Gia) 
-        FROM ChiTietGioHang 
-        WHERE GioHangId = @GioHangId;
-
-     
-        -- Cập nhật giỏ hàng với tổng tiền đã áp dụng giảm giá
-        UPDATE GioHang
-        SET TongSoLuong = TongSoLuong - @SoLuong,
-            TongThanhTien = @TongThanhTien
-        WHERE Id = @GioHangId;
-
-        COMMIT TRANSACTION;
-    END TRY
-    BEGIN CATCH
-        ROLLBACK TRANSACTION;
-        THROW;
-    END CATCH
-END;
-
+drop proc sp_ThanhToanGioHang 
 
 CREATE PROCEDURE sp_ThanhToanGioHang
     @GioHangId BIGINT,
@@ -406,19 +327,14 @@ BEGIN
 
         -- 1. Lấy thông tin tổng tiền và giảm giá từ giỏ hàng
         DECLARE @TongTien DECIMAL(18, 2), @TongSoLuong INT;
-        SELECT @TongTien = TongThanhTien, @TongSoLuong = TongSoLuong
-        FROM GioHang
+        SELECT @TongTien = t.TongThanhTien , @TongSoLuong = TongSoLuong
+        FROM GioHang t
         WHERE Id = @GioHangId;
-		   -- Lấy giảm giá cho khách hàng
-        DECLARE @Discount FLOAT;
-        SELECT @Discount = MucGiamGia 
-        FROM BacKhachHang 
-        INNER JOIN KhachHang ON BacKhachHang.MaBac = KhachHang.MaBac 
-        WHERE KhachHang.MaKh = (SELECT MaKh FROM GioHang WHERE Id = @GioHangId);
+		
 
         -- 2. Tạo hóa đơn mua
-        INSERT INTO HoaDonMua (MaKh, MaNv, NgayMua, TongTien, TrangThai, Soluong)
-        VALUES (@MaKh, @MaNv, GETDATE(), @TongTien, 'DaThanhToan', @TongSoLuong);
+        INSERT INTO HoaDonMua (MaKh, NgayMua, TongTien, TrangThai, Soluong)
+        VALUES (@MaKh, GETDATE(), @TongTien, N'Chờ xử lý', @TongSoLuong);
 
         -- Lấy số hóa đơn mua mới
         SET @SoHdmua = SCOPE_IDENTITY();
@@ -443,7 +359,7 @@ BEGIN
         DEALLOCATE cur;
 
         UPDATE GioHang
-        SET TrangThai = 'DaThanhToan'
+        SET TrangThai = N'Đã Đặt Hàng'
         WHERE Id = @GioHangId;
         DELETE FROM ChiTietGioHang
         WHERE GioHangId = @GioHangId;
@@ -456,21 +372,36 @@ BEGIN
     END CATCH
 END;
 
-CREATE FUNCTION fn_TongTienKhachHang
-(
-    @MaKh BIGINT
-)
+CREATE FUNCTION fn_LaySoLuongDonMuaThanhCong()
+RETURNS INT
+AS
+BEGIN
+    DECLARE @SoLuongDon INT;
+
+    -- Đếm số lượng hóa đơn mua
+    SELECT @SoLuongDon = COUNT(*)
+    FROM HoaDonMua where TrangThai = N'Thành Công';
+
+    -- Trả về giá trị 0 nếu không có hóa đơn
+    RETURN ISNULL(@SoLuongDon, 0);
+END;
+
+
+CREATE FUNCTION fn_LayTongDoanhThu()
 RETURNS DECIMAL(18, 2)
 AS
 BEGIN
-    DECLARE @TongTien DECIMAL(18, 2);
+    DECLARE @TongDoanhThu DECIMAL(18, 2);
 
-    SELECT @TongTien = SUM(TongTien)
-    FROM HoaDonMua
-    WHERE MaKh = @MaKh AND TrangThai = 'DaThanhToan';
+    -- Tính tổng doanh thu từ cột 'TongTien' trong bảng HoaDonMua
+    SELECT @TongDoanhThu = SUM(TongTien)
+    FROM HoaDonMua where TrangThai = 'Thành Công';
 
-    RETURN @TongTien;
+    -- Trả về giá trị 0 nếu không có doanh thu
+    RETURN ISNULL(@TongDoanhThu, 0);
 END;
+
+
 
 CREATE VIEW v_DanhSachHoaDonKhachHang AS
 SELECT 
@@ -517,14 +448,14 @@ BEGIN
     IF EXISTS (
         SELECT 1
         FROM INSERTED
-        WHERE TrangThai = 'DaThanhToan'
+        WHERE TrangThai = N'Thành Công'
     )
     BEGIN
         UPDATE KhachHang
         SET TongChiTieu = TongChiTieu + i.TongTien
         FROM KhachHang kh
         INNER JOIN INSERTED i ON kh.MaKh = i.MaKh
-        WHERE i.TrangThai = 'DaThanhToan';
+        WHERE i.TrangThai = N'Thành Công';
     END
 END;
 CREATE TRIGGER trg_CapNhatKhoSauThemHoaDonMua
@@ -532,39 +463,54 @@ ON ChiTietHoaDonMua
 AFTER INSERT
 AS
 BEGIN
-    -- Cập nhật số lượng sản phẩm trong kho cho nhiều sản phẩm
+  
     UPDATE T
     SET 
         T.SoLuongTon = T.SoLuongTon - I.SoLuong,
-        T.LanCapNhatCuoi = GETDATE()  -- Cập nhật thời gian sửa lần cuối
+        T.LanCapNhatCuoi = GETDATE() 
     FROM TonKho T
-    JOIN INSERTED I ON T.MaSach = I.MaSP;
+    JOIN INSERTED I ON T.MaSach = I.MaSach;
+
 END;
 
 
-CREATE FUNCTION fn_LaySoLuongDonMuaThanhCong()
-RETURNS INT
-AS
-BEGIN
-    DECLARE @SoLuongDon INT;
+CREATE VIEW v_Top5DonHangGiaTriCaoNhat AS
+SELECT TOP 5
+    hdm.SoHdmua AS SoHoaDon,
+    kh.TenKh AS TenKhachHang,
+    hdm.NgayMua,
+    hdm.TongTien
+FROM 
+    HoaDonMua hdm
+JOIN 
+    KhachHang kh ON hdm.MaKh = kh.MaKh
+WHERE 
+    MONTH(hdm.NgayMua) = MONTH(GETDATE()) 
+    AND YEAR(hdm.NgayMua) = YEAR(GETDATE())
+ORDER BY 
+    hdm.TongTien DESC;
 
-    -- Đếm số lượng hóa đơn mua
-    SELECT @SoLuongDon = COUNT(*)
-    FROM HoaDonMua where TrangThai = 'DaThanhToan';
 
-    -- Trả về giá trị 0 nếu không có hóa đơn
-    RETURN ISNULL(@SoLuongDon, 0);
-END;
-CREATE FUNCTION fn_LayTongDoanhThu()
-RETURNS DECIMAL(18, 2)
-AS
-BEGIN
-    DECLARE @TongDoanhThu DECIMAL(18, 2);
+CREATE VIEW v_KhachHangCoNhieuDonHangnhat AS
+SELECT 
+    TOP 5 
+    K.MaKh, 
+    K.TenKh,
+    COUNT(HDM.SoHdmua) AS SoLuongDonHang
+FROM 
+    KhachHang K
+JOIN 
+    HoaDonMua HDM ON K.MaKh = HDM.MaKh
+WHERE 
+    MONTH(HDM.NgayMua) = MONTH(GETDATE()) 
+    AND YEAR(HDM.NgayMua) = YEAR(GETDATE())
+	AND HDM.TrangThai = N'Thành Công'
+GROUP BY 
+    K.MaKh, K.TenKh
+ORDER BY 
+    SoLuongDonHang DESC;
 
-    -- Tính tổng doanh thu từ cột 'TongTien' trong bảng HoaDonMua
-    SELECT @TongDoanhThu = SUM(TongTien)
-    FROM HoaDonMua where TrangThai = 'DaThanhToan';
 
-    -- Trả về giá trị 0 nếu không có doanh thu
-    RETURN ISNULL(@TongDoanhThu, 0);
-END;
+
+SELECT dbo.fn_LaySoLuongDonMuaThanhCong()
+SELECT dbo.fn_LayTongDoanhThu()

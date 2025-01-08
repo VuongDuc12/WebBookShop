@@ -108,7 +108,7 @@ public class CartController : Controller
                     GioHangId = cartId,
                     MaSach = bookId,
                     SoLuong = quantity,
-                    Gia = price
+                    
                 };
 
                 // Execute the stored procedure to add the product to the cart
@@ -126,4 +126,69 @@ public class CartController : Controller
         // After adding the product, return to the home page or product page
         return RedirectToAction("Index", "Home");
     }
+
+
+   [HttpPost]
+public async Task<IActionResult> Checkout()
+{
+    var user = await _userManager.GetUserAsync(User);
+    if (user == null)
+    {
+        TempData["Error"] = "Bạn cần đăng nhập để thanh toán.";
+        return RedirectToAction("Login", "Account");
+    }
+
+    // Lấy MaKh từ quan hệ KhachHangs
+
+  
+
+    using (var connection = new SqlConnection(_connectionString))
+    {
+        try
+        {
+            connection.Open();
+            var query = @"
+                SELECT MaKh
+                FROM KhachHang
+                WHERE UserId = @UserId"; // Giả định UserId là cột liên kết
+
+            // Thực thi truy vấn
+            var customerId = await connection.QueryFirstOrDefaultAsync<long?>(query, new { UserId = user.Id });
+            // Lấy ID giỏ hàng
+            var parameters = new DynamicParameters();
+            parameters.Add("@UserId", user.Id, DbType.String);
+            parameters.Add("@GioHangId", 0, DbType.Int64, ParameterDirection.Output);
+
+            await connection.ExecuteAsync("sp_LayIdGioHang", parameters, commandType: CommandType.StoredProcedure);
+            var cartId = parameters.Get<long>("@GioHangId");
+
+            if (cartId == 0)
+            {
+                TempData["Error"] = "Giỏ hàng của bạn trống.";
+                return RedirectToAction("Index");
+            }
+
+            // Thanh toán giỏ hàng
+            var checkoutParams = new DynamicParameters();
+            checkoutParams.Add("@GioHangId", cartId, DbType.Int64);
+            checkoutParams.Add("@MaKh", customerId, DbType.Int64); // Sử dụng MaKh từ KhachHang
+            checkoutParams.Add("@MaNv", DBNull.Value, DbType.Int64); // Nếu không có nhân viên, để null
+            checkoutParams.Add("@SoHdmua", 0, DbType.Int64, ParameterDirection.Output);
+
+            await connection.ExecuteAsync("sp_ThanhToanGioHang", checkoutParams, commandType: CommandType.StoredProcedure);
+
+            // Lấy số hóa đơn mua mới tạo
+            var orderId = checkoutParams.Get<long>("@SoHdmua");
+
+            TempData["Success"] = $"Thanh toán thành công! Số hóa đơn của bạn là {orderId}.";
+            return RedirectToAction("Index", "Home");
+        }
+        catch (Exception ex)
+        {
+            TempData["Error"] = $"Lỗi trong quá trình thanh toán: {ex.Message}";
+            return RedirectToAction("Index" ,"Home");
+        }
+    }
+}
+
 }

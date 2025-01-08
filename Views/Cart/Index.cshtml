@@ -1,55 +1,67 @@
 @model List<NewAppBookShop.ViewModels.ChiTietGioHangViewModel>
 @{
     ViewData["Title"] = "Cart Page";
-     Layout = "../Shared/_Layout.cshtml";
+    Layout = "../Shared/_Layout.cshtml";
 }
 <div class="main_slider">
-<div class="container mt-5">
-    <h2>Giỏ hàng của bạn</h2>
+    <div class="container mt-5">
+        <h2>Giỏ hàng của bạn</h2>
 
-    @if (!Model.Any())
-    {
-        <p>Giỏ hàng trống. Hãy thêm sản phẩm!</p>
-    }
-    else
-    {
-        <table class="table">
-            <thead>
-                <tr>
-                    <th>Tên sản phẩm</th>
-                    <th>Số lượng</th>
-                    <th>Giá</th>
-                    <th>Thành tiền</th>
-                    <th>Hành động</th>
-                </tr>
-            </thead>
-            <tbody>
-                @foreach (var item in Model)
-                {
+        @if (!Model.Any())
+        {
+            <p>Giỏ hàng trống. Hãy thêm sản phẩm!</p>
+        }
+        else
+        {
+            <table class="table">
+                <thead>
                     <tr>
-                        <td>@item.TenSach</td>
-                        <td>
-                            <form asp-action="UpdateQuantity" method="post">
-                                <input type="hidden" name="id" value="@item.MaSach" />
-                                <input type="number" name="quantity" value="@item.SoLuong" class="form-control" style="width: 70px; display: inline-block;" />
-                                <button type="submit" class="btn btn-primary btn-sm">Cập nhật</button>
-                            </form>
-                        </td>
-                        <td>@item.GiaBan.ToString("N0")₫</td>
-                        <td>@item.ThanhTien.ToString("N0")₫</td>
-                        <td>
-                            <form asp-action="RemoveFromCart" method="post">
-                                <input type="hidden" name="id" value="@item.MaSach" />
-                                <button type="submit" class="btn btn-danger btn-sm">Xóa</button>
-                            </form>
-                        </td>
+                        <th>Tên sản phẩm</th>
+                        <th>Số lượng</th>
+                        <th>Giá</th>
+                        <th>Thành tiền</th>
+                        <th>Hành động</th>
                     </tr>
-                }
-            </tbody>
-        </table>
-        <h4>Tổng cộng: @Model.Sum(i => i.ThanhTien).ToString("C")</h4>
-    }
-</div>
+                </thead>
+                <tbody>
+                    @foreach (var item in Model)
+                    {
+                        <tr>
+                            <td>@item.TenSach</td>
+                            <td>
+                                <form asp-action="UpdateQuantity" method="post">
+                                    <input type="hidden" name="id" value="@item.MaSach" />
+                                    <input type="number" name="quantity" value="@item.SoLuong" class="form-control" style="width: 70px; display: inline-block;" />
+                                    <button type="submit" class="btn btn-primary btn-sm">Cập nhật</button>
+                                </form>
+                            </td>
+                            <td>@item.GiaBan.ToString("N0")₫</td>
+                            <td>@item.ThanhTien.ToString("N0")₫</td>
+                            <td>
+                                <form asp-action="RemoveFromCart" method="post">
+                                    <input type="hidden" name="id" value="@item.MaSach" />
+                                    <button type="submit" class="btn btn-danger btn-sm">Xóa</button>
+                                </form>
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+          
 
-			
-		</div>
+
+                <div class="d-flex justify-content-end align-items-center">
+                    <h4 class="my-3">Tổng cộng: @Model.Sum(i => i.ThanhTien).ToString("N0")₫</h4>
+
+                     <div class="text-right mt-3 mx-3">
+                        <form asp-action="Checkout" method="post">
+                          
+                            <button type="submit" class="btn btn-success btn-lg">Thanh toán</button>
+                        </form>
+                    </div>
+
+                </div>
+           
+        }
+    </div>
+</div>
