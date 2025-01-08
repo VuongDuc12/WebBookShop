@@ -70,8 +70,32 @@ build_metadata.AdditionalFiles.CssScope =
 build_metadata.AdditionalFiles.TargetPath = QXJlYXNcQWRtaW5cVmlld3NcRG9uSGFuZ1xUcmFDdXVEb25IYW5nLmNzaHRtbA==
 build_metadata.AdditionalFiles.CssScope = 
 
+[D:/CodeProject/c\#/NewAppBookShop/NewAppBookShop/Areas/Admin/Views/Employee/Analytics.cshtml]
+build_metadata.AdditionalFiles.TargetPath = QXJlYXNcQWRtaW5cVmlld3NcRW1wbG95ZWVcQW5hbHl0aWNzLmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[D:/CodeProject/c\#/NewAppBookShop/NewAppBookShop/Areas/Admin/Views/Employee/Details.cshtml]
+build_metadata.AdditionalFiles.TargetPath = QXJlYXNcQWRtaW5cVmlld3NcRW1wbG95ZWVcRGV0YWlscy5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[D:/CodeProject/c\#/NewAppBookShop/NewAppBookShop/Areas/Admin/Views/Employee/Index.cshtml]
+build_metadata.AdditionalFiles.TargetPath = QXJlYXNcQWRtaW5cVmlld3NcRW1wbG95ZWVcSW5kZXguY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[D:/CodeProject/c\#/NewAppBookShop/NewAppBookShop/Areas/Admin/Views/Employee/Payslip.cshtml]
+build_metadata.AdditionalFiles.TargetPath = QXJlYXNcQWRtaW5cVmlld3NcRW1wbG95ZWVcUGF5c2xpcC5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
 [D:/CodeProject/c\#/NewAppBookShop/NewAppBookShop/Areas/Admin/Views/Home/Index.cshtml]
 build_metadata.AdditionalFiles.TargetPath = QXJlYXNcQWRtaW5cVmlld3NcSG9tZVxJbmRleC5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[D:/CodeProject/c\#/NewAppBookShop/NewAppBookShop/Areas/Admin/Views/ImportBill/Create.cshtml]
+build_metadata.AdditionalFiles.TargetPath = QXJlYXNcQWRtaW5cVmlld3NcSW1wb3J0QmlsbFxDcmVhdGUuY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[D:/CodeProject/c\#/NewAppBookShop/NewAppBookShop/Areas/Admin/Views/ImportBill/Index.cshtml]
+build_metadata.AdditionalFiles.TargetPath = QXJlYXNcQWRtaW5cVmlld3NcSW1wb3J0QmlsbFxJbmRleC5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 
 
 [D:/CodeProject/c\#/NewAppBookShop/NewAppBookShop/Areas/Admin/Views/Publish/Index.cshtml]

@@ -1,0 +1,140 @@
+﻿    @{
+        ViewData["Title"] = "Tạo Hóa Đơn Nhập";
+        Layout = "~/Areas/Admin/Views/Shared/_LayoutAdmin.cshtml";
+    }
+
+
+
+    <div class="page-inner">
+        <div class="page-header d-flex flex-row justify-content-between">
+            <div class="d-flex flex-row">
+                <ul class="breadcrumbs mb-3">
+                    <li class="nav-home">
+                        <a href="#">
+                            <i class="icon-home"></i>
+                        </a>
+                    </li>
+                    <li class="separator">
+                        <i class="icon-arrow-right"></i>
+                    </li>
+                    <li class="nav-item">
+                        <a href="#">Nhập hàng</a>
+                    </li>
+                
+                    <li class="separator">
+                        <i class="icon-arrow-right"></i>
+                    </li>
+                    <li class="nav-item">
+                        <a href="#">Tạo hóa đơn nhập</a>
+                    </li>
+                </ul>
+            </div>
+            <div>
+            </div>
+
+
+        </div>
+        <div class="row">
+            <div class="card">
+                <div class="card-header">
+                    <div class="card-title">Danh sách Đầu sách trên từng NXB</div>
+                </div>
+                <div class="card-body">
+                    <form id="hoaDonNhapForm">
+                        <div class="border-1">
+                            <div id="chiTietContainer">
+                                <!-- Chi tiết hóa đơn sẽ được thêm tại đây -->
+                            </div>
+                            <div class="text-end">
+                                <button type="button" class="btn-secondary btn-sm" onclick="addChiTiet()">+ Thêm chi tiết</button>
+                                <button type="submit" class="btn-primary btn-sm">Tạo hóa đơn nhập</button>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+<script>
+    let chiTietIndex = 0;
+
+    function addChiTiet() {
+        const container = document.getElementById('chiTietContainer');
+        const chiTietDiv = document.createElement('div');
+        chiTietDiv.id = `chiTiet-${chiTietIndex}`;
+        chiTietDiv.innerHTML = `
+                <div>
+                    <select class="form-control" id="maSach-${chiTietIndex}" required>
+    @foreach (var book in ViewBag.Books as List<NewAppBookShop.Models.Sach>)
+    {
+                                <option value="@book.MaSach">@book.TenSach</option>
+    }
+                    </select>
+                    <input type="number" id="soLuong-${chiTietIndex}" class="form-control my-2" placeholder="Số lượng" required />
+                    <input type="number" id="giaNhap-${chiTietIndex}" class="form-control my-2" placeholder="Giá nhập" step="0.01" required />
+                    <button type="button" class="btn btn-danger btn-sm" onclick="removeChiTiet(${chiTietIndex})">Xóa</button>
+                </div>
+            `;
+        container.appendChild(chiTietDiv);
+        chiTietIndex++;
+    }
+
+    function removeChiTiet(index) {
+        document.getElementById(`chiTiet-${index}`).remove();
+    }
+
+    document.getElementById('hoaDonNhapForm').addEventListener('submit', async function (event) {
+        event.preventDefault();
+
+        const chiTietArray = [];
+
+        // Lặp qua các chi tiết hóa đơn để thu thập dữ liệu
+        for (let i = 0; i < chiTietIndex; i++) {
+            const maSach = document.getElementById(`maSach-${i}`);
+            const soLuong = document.getElementById(`soLuong-${i}`);
+            const giaNhap = document.getElementById(`giaNhap-${i}`);
+
+            if (maSach && soLuong && giaNhap) {
+                chiTietArray.push({
+                    MaSach: parseInt(maSach.value, 10),
+                    SoLuong: parseInt(soLuong.value, 10),
+                    GiaNhap: parseFloat(giaNhap.value),
+                });
+            }
+        }
+
+        // Gửi yêu cầu POST với dữ liệu JSON
+        const response = await fetch('/admin/importbill/add', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify(chiTietArray),
+        });
+
+        const result = await response.json();
+
+        // Sử dụng SweetAlert2 để hiển thị thông báo
+        if (result.success) {
+            Swal.fire({
+                icon: 'success',
+                title: 'Thành công!',
+                text: result.message,
+                showConfirmButton: false,
+                timer: 2000, // Tự động đóng sau 2 giây
+            });
+
+            // Xóa dữ liệu chi tiết hóa đơn
+            document.getElementById('chiTietContainer').innerHTML = '';
+            chiTietIndex = 0;
+        } else {
+            Swal.fire({
+                icon: 'error',
+                title: 'Lỗi!',
+                text: result.message,
+                showConfirmButton: true,
+            });
+        }
+    });
+
+</script>
+

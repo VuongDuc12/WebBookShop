@@ -8910,7 +8910,8 @@
       "Microsoft.Identity.Web.DownstreamApi >= 2.15.2",
       "Microsoft.Identity.Web.UI >= 2.15.2",
       "Microsoft.VisualStudio.Web.CodeGeneration.Design >= 8.0.7",
-      "MimeKit >= 4.9.0"
+      "MimeKit >= 4.9.0",
+      "Newtonsoft.Json >= 13.0.3"
     ]
   },
   "packageFolders": {
@@ -9029,6 +9030,10 @@
           "MimeKit": {
             "target": "Package",
             "version": "[4.9.0, )"
+          },
+          "Newtonsoft.Json": {
+            "target": "Package",
+            "version": "[13.0.3, )"
           }
         },
         "imports": [
@@ -9053,5 +9058,13 @@
         "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\8.0.403/PortableRuntimeIdentifierGraph.json"
       }
     }
-  }
+  },
+  "logs": [
+    {
+      "code": "Undefined",
+      "level": "Warning",
+      "warningLevel": 1,
+      "message": "Problem reading the cache file D:\\CodeProject\\c#\\NewAppBookShop\\NewAppBookShop\\obj\\project.nuget.cache : Invalid property identifier character: <. Path 'version', line 3, position 0."
+    }
+  ]
 }

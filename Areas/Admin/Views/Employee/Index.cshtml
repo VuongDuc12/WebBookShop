@@ -1,0 +1,50 @@
+﻿@model IEnumerable<NewAppBookShop.Models.NhanVien>
+
+@{
+    ViewData["Title"] = "Employee Management";
+    Layout = "~/Areas/Admin/Views/Shared/_LayoutAdmin.cshtml";
+}
+
+<div class="container py-4">
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <h1 class="h3 text-primary">Employee Management</h1>
+        <a asp-action="Create" class="btn btn-primary">Add New Employee</a>
+    </div>
+
+    <table class="table table-bordered">
+        <thead class="table-light">
+            <tr>
+                <th>MaNV</th>
+                <th>TenNV</th>
+                <th>Dia Chi</th>
+                <th>Phone</th>
+                <th>Ngay Sinh</th>
+                <th>Ngay Vao Lam</th>
+                <th>Luong Co Ban</th>
+                <th>Chuc Vu</th>
+                <th>Trang Thai</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var employee in Model)
+            {
+                <tr>
+                    <td>@employee.MaNv</td>
+                    <td>@employee.TenNv</td>
+                    <td>@employee.DiaChi</td>
+                    <td>@employee.SoDienThoai</td>
+                    <td>@employee.NgaySinh?.ToString("yyyy-MM-dd")</td>
+                    <td>@employee.NgayVaoLam.ToString("yyyy-MM-dd")</td>
+                    <td>@employee.LuongCoBan</td>
+                    <td>@employee.MaChucVuNavigation?.TenChucVu ?? "N/A"</td>
+                    <td>@(employee.TrangThai == true ? "Active" : "Inactive")</td>
+                    <td>
+                        <a class="btn btn-sm btn-outline-primary" asp-action="Edit" asp-route-id="@employee.MaNv">Edit</a>
+                        <a class="btn btn-sm btn-outline-danger" asp-action="Delete" asp-route-id="@employee.MaNv">Delete</a>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>

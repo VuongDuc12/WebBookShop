@@ -60,7 +60,10 @@ public partial class BookShopContext : DbContext
     public virtual DbSet<TonKho> TonKhos { get; set; }
 
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
+
         => optionsBuilder.UseSqlServer("Name=NewAppBookShopContextConnection");
+
+
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
