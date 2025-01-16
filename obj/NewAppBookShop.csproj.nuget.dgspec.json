@@ -1,17 +1,17 @@
 {
   "format": 1,
   "restore": {
-    "D:\\CodeProject\\c#\\NewAppBookShop\\NewAppBookShop\\NewAppBookShop.csproj": {}
+    "D:\\CodeProject\\c#\\WebBookShop\\NewAppBookShop.csproj": {}
   },
   "projects": {
-    "D:\\CodeProject\\c#\\NewAppBookShop\\NewAppBookShop\\NewAppBookShop.csproj": {
+    "D:\\CodeProject\\c#\\WebBookShop\\NewAppBookShop.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "D:\\CodeProject\\c#\\NewAppBookShop\\NewAppBookShop\\NewAppBookShop.csproj",
+        "projectUniqueName": "D:\\CodeProject\\c#\\WebBookShop\\NewAppBookShop.csproj",
         "projectName": "NewAppBookShop",
-        "projectPath": "D:\\CodeProject\\c#\\NewAppBookShop\\NewAppBookShop\\NewAppBookShop.csproj",
+        "projectPath": "D:\\CodeProject\\c#\\WebBookShop\\NewAppBookShop.csproj",
         "packagesPath": "C:\\Users\\Admin\\.nuget\\packages\\",
-        "outputPath": "D:\\CodeProject\\c#\\NewAppBookShop\\NewAppBookShop\\obj\\",
+        "outputPath": "D:\\CodeProject\\c#\\WebBookShop\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
           "C:\\Users\\Admin\\AppData\\Roaming\\NuGet\\NuGet.Config",

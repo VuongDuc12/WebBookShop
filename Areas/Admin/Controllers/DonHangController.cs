@@ -163,22 +163,39 @@ public async Task<IActionResult> Details(long id)
 [HttpPost]
 public IActionResult UpdateTrangThai(long soHdmua, string trangThai)
 {
+    _logger.LogInformation("Updating order with ID: {OrderId}, new status: {Status}", soHdmua, trangThai);
+
+    // Retrieve the invoice from the database
     var hoaDon = _context.HoaDonMuas.FirstOrDefault(hd => hd.SoHdmua == soHdmua);
 
+    // Check if the invoice exists
     if (hoaDon == null)
     {
+        _logger.LogWarning("Invoice with ID {OrderId} not found.", soHdmua);
         return NotFound("Không tìm thấy hóa đơn.");
     }
 
+    // Update the status
     hoaDon.TrangThai = trangThai;
-    _context.SaveChanges();
 
-    TempData["SuccessMessage"] = "Cập nhật trạng thái thành công.";
-    return RedirectToAction("Details", new { soHdmua });
+    // Save changes to the database
+    try
+    {
+        _context.SaveChanges();
+        _logger.LogInformation("Order {OrderId} status updated to {Status}", soHdmua, hoaDon.TrangThai);
+
+        TempData["SuccessMessage"] = "Cập nhật trạng thái thành công.";
+    }
+    catch (Exception ex)
+    {
+        _logger.LogError(ex, "Error updating order with ID {OrderId}.", soHdmua);
+        TempData["ErrorMessage"] = "Đã xảy ra lỗi khi cập nhật trạng thái.";
+        return RedirectToAction("Index");
+    }
+
+    // Redirect to the detail view
+    return RedirectToAction("Details", new { id = soHdmua });
 }
 
-    
-
-
-    }
+}
 }

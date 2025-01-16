@@ -16,7 +16,8 @@ namespace NewAppBookShop.Areas.Admin.Controllers
         {
             _connectionString = configuration.GetConnectionString("NewAppBookShopContextConnection");
         }
-
+[Area("Admin")]
+    [Authorize]
         public async Task<IActionResult> Index()
         {
             // Kết nối tới cơ sở dữ liệu
